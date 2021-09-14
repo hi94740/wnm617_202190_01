@@ -1,0 +1,21 @@
+* {
+  --card-corner-radius: 25px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  border-radius: var(--card-corner-radius);
+  padding: var(--card-corner-radius);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: 0.2s;
+}
