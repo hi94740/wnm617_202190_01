@@ -1,4 +1,5 @@
 const Path = require("path")
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 
 /**
  * @type { import("webpack").Configuration }
@@ -6,6 +7,10 @@ const Path = require("path")
 
 module.exports = {
   entry: "./src/index.tsx",
+  output: {
+    filename: "bundle.js",
+    path: Path.resolve(__dirname, "dist")
+  },
   mode: "development",
   devtool: "inline-source-map",
   module: {
@@ -34,8 +39,5 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
   },
-  output: {
-    filename: "bundle.js",
-    path: Path.resolve(__dirname, "dist")
-  }
+  plugins: [new BundleAnalyzerPlugin()]
 }
