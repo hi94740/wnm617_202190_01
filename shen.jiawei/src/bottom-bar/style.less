@@ -1,0 +1,28 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  z-index: 99;
+  box-shadow: 0 0 10px #222;
+  @padding: 20px;
+
+  nav {
+    display: flex;
+
+    a {
+      text-decoration: none;
+      color: black;
+      flex-grow: 1;
+      text-align: center;
+      padding: @padding;
+
+      &.selected {
+        font-weight: bolder;
+      }
+    }
+  }
+
+  button {
+    padding: @padding;
+  }
+}

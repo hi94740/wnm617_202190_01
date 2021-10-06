@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+}
+
+.fade- {
+  @transition: opacity 300ms;
+
+  &enter {
+    opacity: 0;
+    &-active {
+      opacity: 1;
+      transition: @transition;
+    }
+  }
+
+  &exit {
+    opacity: 1;
+    &-active {
+      opacity: 0;
+      transition: @transition;
+    }
+  }
+}
+
+section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+}

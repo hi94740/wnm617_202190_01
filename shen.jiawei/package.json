@@ -1,0 +1,43 @@
+{
+  "name": "seiji-junrei-app",
+  "version": "1.0.0",
+  "description": "WNM 617 2021 Fall Section 01 Onsite",
+  "main": "./src/index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hi94740/wnm617_202190_01.git"
+  },
+  "author": "Jiawei Shen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hi94740/wnm617_202190_01/issues"
+  },
+  "homepage": "https://github.com/hi94740/wnm617_202190_01#readme",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.3.0",
+    "react-transition-group": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.27",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.3.0",
+    "@types/react-transition-group": "^4.4.3",
+    "@types/webpack": "^5.28.0",
+    "css-loader": "^6.3.0",
+    "less": "^4.1.2",
+    "less-loader": "^10.0.1",
+    "style-loader": "^3.3.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.3",
+    "webpack": "^5.56.1",
+    "webpack-cli": "^4.8.0"
+  }
+}
