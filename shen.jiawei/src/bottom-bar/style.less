@@ -1,27 +1,120 @@
+@import "../mixins/styles/index.less";
+
 footer {
+  --toolbar-height: 3rem;
+  height: var(--toolbar-height);
+  --toolbar-width: calc(100vw - 2 * $margin);
+  width: var(--toolbar-width);
+
   position: fixed;
   bottom: 0;
-  width: 100vw;
+  margin: 10px;
+  border-radius: 50vw;
   z-index: 99;
   box-shadow: 0 0 10px #222;
+  overflow: hidden;
   @padding: 20px;
+  & > div {
+    nav {
+      position: absolute;
+      left: 0;
+      width: var(--toolbar-height);
+      height: 100%;
+      background-color: #colors[primary];
+      border-radius: 50vw;
+      transition: 300ms;
 
-  nav {
-    display: flex;
+      a {
+        pointer-events: none;
 
-    a {
-      text-decoration: none;
-      color: black;
-      flex-grow: 1;
-      text-align: center;
-      padding: @padding;
+        .flex-center();
+        height: 100%;
+        width: calc(100% / 3);
+        position: absolute;
+        left: calc(50% * 2 / 3);
+        // transform: translateX(
+        //   calc(-100% * 3 / 2 + var(--toolbar-height) * 0.5)
+        // );
+        transition: 300ms;
 
-      &.selected {
-        font-weight: bolder;
+        text-decoration: none;
+
+        div {
+          .flex-center();
+          border-radius: 50vw;
+          width: calc(var(--toolbar-height) * 0.8);
+          height: $width;
+          transition: 300ms;
+
+          div {
+            position: absolute;
+
+            &:nth-child(2) {
+              @c: #colors[secondary]; //Vscode prompts me error when putting this directly in the darken function. But it'll build.
+              color: darken(@c, 25%);
+              background-color: white;
+              transform: scale(0);
+            }
+            &:nth-child(1) {
+              color: white;
+            }
+          }
+        }
+
+        &.selected {
+          z-index: 999;
+
+          & > div > div {
+            &:nth-child(2) {
+              transform: scale(1);
+            }
+            &:nth-child(1) {
+              transform: scale(0);
+            }
+          }
+        }
+      }
+
+      &.active {
+        width: 100%;
+
+        a {
+          pointer-events: unset;
+
+          &:nth-child(2) {
+            --x-offset: 1;
+          }
+          &:nth-child(3) {
+            --x-offset: 2;
+          }
+
+          // transform: translateX(calc(var(--x-offset, 0) * 100%));
+          left: calc(var(--x-offset, 0) * 100% / 3);
+        }
+      }
+    }
+
+    & > div {
+      position: absolute;
+      right: 0;
+      width: calc(100% - var(--toolbar-height));
+      height: 100%;
+      .flex-center();
+
+      input {
+        display: block;
+        margin: 8px;
+        height: calc(100% - 2 * $margin);
+        flex-grow: 1;
+
+        border: none;
+        appearance: none;
+        border-radius: 50vw;
+        background-color: #eee;
+        padding-left: 10px;
       }
     }
   }
-
   button {
     padding: @padding;
   }

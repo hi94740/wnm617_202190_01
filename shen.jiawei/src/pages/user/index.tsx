@@ -1,9 +1,14 @@
 import React from "react"
 import { useHistory } from "react-router"
+import { useUsername } from "../../storage"
 
 export default () => {
   const history = useHistory()
-  const logout = () => history.push("/")
+  const [, setUsername] = useUsername()
+  const logout = () => {
+    setUsername(null)
+    setTimeout(() => history.push("/"))
+  }
 
   return (
     <section>

@@ -1,7 +1,7 @@
 import "./app.less"
 
-import React from "react"
-import { Route, Switch, useLocation } from "react-router-dom"
+import React, { useEffect } from "react"
+import { Route, Switch, useHistory, useLocation } from "react-router-dom"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 
 import LoginPage from "./pages/login"
@@ -11,8 +11,21 @@ import WorkPage from "./pages/work"
 import UserPage from "./pages/user"
 import BottomBar from "./bottom-bar"
 
+import { useUsername } from "./storage"
+
+const pageWithoutLogin = ["/"]
+
 export default () => {
+  const history = useHistory()
   const location = useLocation()
+  const [username] = useUsername()
+
+  useEffect(() => {
+    if (!pageWithoutLogin.includes(location.pathname) && !username)
+      history.push("/")
+    if (pageWithoutLogin.includes(location.pathname) && username)
+      history.push("/map")
+  }, [])
 
   return (
     <>

@@ -27,8 +27,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              url: false,
-              import: false
+              url: false
             }
           },
           "less-loader"
@@ -37,7 +36,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js", ".less"]
   },
   plugins: [new BundleAnalyzerPlugin()]
 }
