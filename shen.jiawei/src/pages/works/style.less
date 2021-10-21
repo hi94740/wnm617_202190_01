@@ -1,0 +1,44 @@
+@import "../../mixins/styles/index.less";
+
+#page-works {
+  a {
+    display: block;
+    text-decoration: none;
+    color: unset;
+  }
+  .card-work {
+    margin-left: var(--toolbar-margin);
+    margin-right: $margin-left;
+    margin-top: $margin-left;
+    width: var(--toolbar-width);
+    height: 179px;
+    max-height: 25vh;
+    background-color: white;
+    box-shadow: 0 2px 5px fade(#222, 50%);
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+    & > div {
+      margin: $margin-left;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      & > h2 {
+        margin: 0;
+        flex-grow: 1;
+        line-height: 1.3em;
+        max-height: calc(3 * $line-height);
+        overflow: hidden;
+      }
+    }
+
+    .work-info {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}

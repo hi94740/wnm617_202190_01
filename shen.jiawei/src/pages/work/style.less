@@ -1,0 +1,38 @@
+#page-work {
+  header {
+    background-size: cover;
+    height: 9rem;
+
+    .dimmer {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: var(--toolbar-margin);
+      padding-bottom: 0;
+      height: calc(100% - $padding);
+      width: calc(100% - $padding * 2);
+      display: flex;
+
+      img {
+        height: 10rem;
+        border: 4px solid white;
+        box-shadow: 0 0 5px fade(#222, 50%);
+      }
+
+      .header {
+        height: 10.3rem;
+        display: flex;
+        flex-direction: column-reverse;
+
+        .work-info {
+          margin-left: var(--toolbar-margin);
+          width: calc(100% - $margin-left);
+        }
+
+        h1 {
+          color: white;
+          margin: var(--toolbar-margin);
+        }
+      }
+    }
+  }
+}

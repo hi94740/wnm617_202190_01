@@ -1,18 +1,35 @@
 import "./style.less"
 import Icon from "@mdi/react"
-import { IconProps } from "@mdi/react/dist/IconProps"
 import {
   mdiAccount,
+  mdiArrowLeft,
   mdiFormatListText,
-  mdiMapMarker,
-  mdiSortClockAscendingOutline
+  mdiMapMarker
 } from "@mdi/js"
 
-import React, { useState } from "react"
-import { NavLink, Route, Switch, useHistory } from "react-router-dom"
-import { debounce } from "lodash"
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState
+} from "react"
+import { createPortal } from "react-dom"
+import { NavLink, useHistory, Switch, Route } from "react-router-dom"
+import { useObservableCallback, useSubscription } from "observable-hooks"
+import { debounceTime, tap } from "rxjs"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
 
-const NavIcon = (props: IconProps) => {
+export const ToolbarContext = createContext({
+  toolbarElement: null as HTMLDivElement,
+  setToolbarElement: (element: HTMLDivElement) => {},
+  modalElement: null as HTMLDivElement,
+  setModalElement: (element: HTMLDivElement) => {}
+})
+
+const noBack = ["/map", "/works", "/user"]
+
+const NavIcon = (props: Parameters<typeof Icon>[0]) => {
   props = {
     size: "calc(var(--toolbar-height) / 2)",
     ...props
@@ -30,49 +47,122 @@ const NavIcon = (props: IconProps) => {
 }
 
 export default () => {
-  const { goBack } = useHistory()
+  const { goBack, location, ...history } = useHistory()
+
+  const backable = noBack.includes(location.pathname)
 
   const [navActive, setNavActive] = useState(false)
-  const [debounceCloseNav] = useState(() =>
-    debounce(() => {
-      setNavActive(false)
-    }, 2800)
+  const [handleTapNav, tapNav] = useObservableCallback(o =>
+    o.pipe(
+      tap(() => setNavActive(true)),
+      debounceTime(2800)
+    )
   )
-  const tapNav = () => {
-    setNavActive(true)
-    debounceCloseNav()
+  useSubscription(tapNav, () => setNavActive(false))
+
+  const activeClassName = "selected"
+  const navlinkProps: Partial<Parameters<NavLink>[0]> = {
+    activeClassName,
+    onClick: event => {
+      if (
+        (event.target as HTMLAnchorElement).classList.contains(activeClassName)
+      ) {
+        event.stopPropagation()
+        setNavActive(false)
+      }
+    }
   }
 
+  const toolbarRef = useCallback(
+    useContext(ToolbarContext).setToolbarElement,
+    []
+  )
+  const modalRef = useCallback(useContext(ToolbarContext).setModalElement, [])
+
   return (
-    <footer>
-      <Switch>
-        <Route exact path={["/map", "/works", "/user"]}>
-          <div>
-            <div>
-              <input type="text" placeholder="Search & Filters" />
-              <Icon
-                path={mdiSortClockAscendingOutline}
-                size={"calc(var(--toolbar-height) / 2)"}
-                style={{marginRight: "10px"}}
-              />
-            </div>
-            <nav className={navActive ? "active" : ""} onClick={tapNav}>
-              <NavLink to="/map" activeClassName="selected">
-                <NavIcon path={mdiMapMarker} />
-              </NavLink>
-              <NavLink to="/works" activeClassName="selected">
-                <NavIcon path={mdiFormatListText} />
-              </NavLink>
-              <NavLink to="/user" activeClassName="selected">
-                <NavIcon path={mdiAccount} />
-              </NavLink>
-            </nav>
+    <>
+      <div className="modal-container" ref={modalRef} />
+      <footer>
+        <div ref={toolbarRef} />
+        <nav
+          className={[navActive ? "active" : "", backable ? "" : "back"].join(
+            " "
+          )}
+          onClick={backable ? handleTapNav : undefined}
+        >
+          <TransitionGroup component={null}>
+            <CSSTransition
+              key={"nav-back-" + backable}
+              classNames="fade"
+              timeout={300}
+            >
+              <Switch>
+                <Route path={noBack}>
+                  <NavLink to="/map" {...navlinkProps}>
+                    <NavIcon path={mdiMapMarker} />
+                  </NavLink>
+                  <NavLink to="/works" {...navlinkProps}>
+                    <NavIcon path={mdiFormatListText} />
+                  </NavLink>
+                  <NavLink to="/user" {...navlinkProps}>
+                    <NavIcon path={mdiAccount} />
+                  </NavLink>
+                </Route>
+                <Route>
+                  <button onClick={goBack}>
+                    <Icon
+                      path={mdiArrowLeft}
+                      size="calc(var(--toolbar-height) / 2)"
+                    />
+                  </button>
+                </Route>
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
+        </nav>
+      </footer>
+    </>
+  )
+}
+
+export const Toolbar = (props: { children: ReactNode }) => {
+  const { toolbarElement } = useContext(ToolbarContext)
+  return toolbarElement ? createPortal(props.children, toolbarElement) : null
+}
+
+export const ToolbarModal = (props: { children: ReactNode; show: boolean }) => {
+  const { modalElement } = useContext(ToolbarContext)
+  return modalElement
+    ? createPortal(
+        <CSSTransition
+          in={props.show}
+          timeout={300}
+          classNames="slide-up"
+          mountOnEnter
+          unmountOnExit
+        >
+          <div className="toolbar-modal">
+            <div>{props.children}</div>
           </div>
-        </Route>
-        <Route>
-          <button onClick={goBack}>《 back</button>
-        </Route>
-      </Switch>
-    </footer>
+        </CSSTransition>,
+        modalElement
+      )
+    : null
+}
+
+export const ToolbarContextProvider = (props: { children: ReactNode }) => {
+  const [toolbarElement, setToolbarElement] = useState(null as HTMLDivElement)
+  const [modalElement, setModalElement] = useState(null as HTMLDivElement)
+  return (
+    <ToolbarContext.Provider
+      value={{
+        toolbarElement,
+        setToolbarElement,
+        modalElement,
+        setModalElement
+      }}
+    >
+      {props.children}
+    </ToolbarContext.Provider>
   )
 }

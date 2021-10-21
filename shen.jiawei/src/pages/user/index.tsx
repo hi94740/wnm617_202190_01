@@ -1,5 +1,6 @@
 import React from "react"
 import { useHistory } from "react-router"
+import { Toolbar } from "../../bottom-bar"
 import { useUsername } from "../../storage"
 
 export default () => {
@@ -13,7 +14,9 @@ export default () => {
   return (
     <section>
       <h1>Hi! I'm the one and only user! 👴🏻</h1>
-      <button onClick={logout}>Log Out</button>
+      <Toolbar>
+        <button onClick={logout}>Log Out</button>
+      </Toolbar>
     </section>
   )
 }

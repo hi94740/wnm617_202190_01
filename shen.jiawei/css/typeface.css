@@ -1,0 +1,16 @@
+h1 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 24pt;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+* {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+body {
+  color: #222;
+}

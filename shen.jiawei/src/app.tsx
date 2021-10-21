@@ -28,7 +28,6 @@ export default () => {
   }, [])
 
   return (
-    <>
       <TransitionGroup component={null}>
         <CSSTransition
           key={"page-" + location.pathname}
@@ -39,7 +38,7 @@ export default () => {
             <Route exact path="/">
               <LoginPage />
             </Route>
-            <Route path="/map">
+            <Route path={["/map"]}>
               <MapPage />
             </Route>
             <Route path="/works">
@@ -66,6 +65,5 @@ export default () => {
           </Switch>
         </CSSTransition>
       </TransitionGroup>
-    </>
   )
 }

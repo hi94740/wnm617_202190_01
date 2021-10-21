@@ -1,121 +1,218 @@
 @import "../mixins/styles/index.less";
 
-footer {
+:root {
   --toolbar-height: 3rem;
+  --toolbar-margin: 10px;
+  --toolbar-width: calc(100vw - 2 * var(--toolbar-margin));
+}
+
+footer {
   height: var(--toolbar-height);
-  --toolbar-width: calc(100vw - 2 * $margin);
   width: var(--toolbar-width);
 
   position: fixed;
   bottom: 0;
-  margin: 10px;
+  margin: var(--toolbar-margin);
   border-radius: 50vw;
-  z-index: 99;
+  background-color: white;
   box-shadow: 0 0 10px #222;
+  z-index: 99;
   overflow: hidden;
   @padding: 20px;
-  & > div {
-    nav {
-      position: absolute;
-      left: 0;
-      width: var(--toolbar-height);
-      height: 100%;
-      background-color: #colors[primary];
-      border-radius: 50vw;
-      transition: 300ms;
+  nav {
+    position: absolute;
+    left: 0;
+    width: var(--toolbar-height);
+    height: 100%;
+    background-color: #colors[primary];
+    border-radius: 50vw;
+    transition: 300ms;
+    .flex-center();
 
-      a {
-        pointer-events: none;
-
-        .flex-center();
-        height: 100%;
-        width: calc(100% / 3);
-        position: absolute;
-        left: calc(50% * 2 / 3);
-        // transform: translateX(
-        //   calc(-100% * 3 / 2 + var(--toolbar-height) * 0.5)
-        // );
-        transition: 300ms;
-
-        text-decoration: none;
-
-        div {
-          .flex-center();
-          border-radius: 50vw;
-          width: calc(var(--toolbar-height) * 0.8);
-          height: $width;
-          transition: 300ms;
-
-          div {
-            position: absolute;
-
-            &:nth-child(2) {
-              @c: #colors[secondary]; //Vscode prompts me error when putting this directly in the darken function. But it'll build.
-              color: darken(@c, 25%);
-              background-color: white;
-              transform: scale(0);
-            }
-            &:nth-child(1) {
-              color: white;
-            }
-          }
+    .active-nav-button() {
+      & > div > div {
+        &:nth-child(2) {
+          transform: scale(1);
         }
-
-        &.selected {
-          z-index: 999;
-
-          & > div > div {
-            &:nth-child(2) {
-              transform: scale(1);
-            }
-            &:nth-child(1) {
-              transform: scale(0);
-            }
-          }
-        }
-      }
-
-      &.active {
-        width: 100%;
-
-        a {
-          pointer-events: unset;
-
-          &:nth-child(2) {
-            --x-offset: 1;
-          }
-          &:nth-child(3) {
-            --x-offset: 2;
-          }
-
-          // transform: translateX(calc(var(--x-offset, 0) * 100%));
-          left: calc(var(--x-offset, 0) * 100% / 3);
+        &:nth-child(1) {
+          transform: scale(0);
         }
       }
     }
+
+    a {
+      pointer-events: none;
+      * {
+        pointer-events: none;
+      }
+
+      .flex-center();
+      height: 100%;
+      width: calc(100% / 3);
+      position: absolute;
+      left: calc(50% * 2 / 3);
+      // transform: translateX(
+      //   calc(-100% * 3 / 2 + var(--toolbar-height) * 0.5)
+      // );
+      transition: 300ms;
+
+      text-decoration: none;
+
+      div {
+        .flex-center();
+        border-radius: 50vw;
+        width: calc(var(--toolbar-height) * 0.8);
+        height: $width;
+        transition: 300ms;
+
+        div {
+          position: absolute;
+
+          &:nth-child(2) {
+            @c: #colors[secondary]; //Vscode prompts me error when putting this directly in the darken function. But it'll build.
+            color: darken(@c, 25%);
+            background-color: white;
+            transform: scale(0);
+          }
+          &:nth-child(1) {
+            color: white;
+          }
+        }
+      }
+
+      &.selected {
+        z-index: 999;
+        .active-nav-button();
+      }
+      &.previous-selected {
+        z-index: 998;
+      }
+    }
+
+    &.active {
+      width: 100%;
+
+      a {
+        pointer-events: unset;
+
+        &:nth-child(2) {
+          --x-offset: 1;
+        }
+        &:nth-child(3) {
+          --x-offset: 2;
+        }
+
+        // transform: translateX(calc(var(--x-offset, 0) * 100%));
+        left: calc(var(--x-offset, 0) * 100% / 3);
+      }
+    }
+
+    // &.back {
+    //   a {
+    //     .active-nav-button();
+    //   }
+    // }
+
+    & > button {
+      border: none;
+
+      @c: #colors[secondary]; //Vscode prompts me error when putting this directly in the darken function. But it'll build.
+      color: darken(@c, 25%);
+      background-color: white;
+
+      position: absolute;
+      .flex-center();
+      border-radius: 50vw;
+      width: calc(var(--toolbar-height) * 0.8);
+      height: $width;
+    }
+  }
+
+  // & > div {
+  //   position: absolute;
+  //   width: 100%;
+  //   height: 100%;
+
+  & > div {
+    position: absolute;
+    right: 0;
+    width: calc(100% - var(--toolbar-height));
+    height: 100%;
+    .flex-center();
+
+    --height: calc(100% - 2 * var(--toolbar-margin));
+
+    // & > .
+
+    & > input {
+      display: block;
+      margin: 8px;
+      height: var(--height);
+      flex-grow: 1;
+
+      border: none;
+      appearance: none;
+      border-radius: 50vw;
+      background-color: #eee;
+      padding-left: 10px;
+    }
+  }
+  // }
+}
+
+.modal-container {
+  .toolbar-modal {
+    position: fixed;
+    bottom: calc(var(--toolbar-margin) + var(--toolbar-height) / 2);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 
     & > div {
       position: absolute;
-      right: 0;
-      width: calc(100% - var(--toolbar-height));
-      height: 100%;
-      .flex-center();
+      bottom: 0;
+      background-color: white;
+      margin-left: calc(var(--toolbar-margin) + var(--toolbar-height) / 2);
+      margin-right: $margin-left;
+      width: calc(100vw - 2 * $margin-left);
+      border-radius: calc(var(--toolbar-height) / 2);
+      padding-bottom: $border-radius;
+      box-shadow: 0 0 10px fade(#222, 50%);
 
-      input {
-        display: block;
-        margin: 8px;
-        height: calc(100% - 2 * $margin);
-        flex-grow: 1;
+      transform: translateY(100%);
+      transition: 300ms cubic-bezier(0, 0, 0, 1);
 
-        border: none;
-        appearance: none;
-        border-radius: 50vw;
-        background-color: #eee;
-        padding-left: 10px;
+      &.show {
+        transform: none;
       }
     }
-  }
-  button {
-    padding: @padding;
+
+    &.slide-up- {
+      @transition: transform 300ms;
+
+      &enter {
+        & > div {
+          transform: translateY(100%);
+        }
+        &-active > div {
+          transform: none;
+          transition: @transition;
+        }
+        &-done > div {
+          transform: none;
+          transition: @transition;
+        }
+      }
+
+      &exit {
+        & > div {
+          transform: none;
+        }
+        &-active > div {
+          transform: translateY(100%);
+          transition: @transition;
+        }
+      }
+    }
   }
 }

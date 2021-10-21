@@ -1,9 +1,35 @@
+import "./style.less"
+
 import React from "react"
+import { WorkInfo } from "./work-info"
+import { Link } from "react-router-dom"
+
+const Activity = () => {
+  return (
+    <Link to="/map?activity">
+      <h3>Activity Title</h3>
+      <p>12/28/2020 16:34</p>
+    </Link>
+  )
+}
 
 export default () => {
   return (
-    <section>
-      <h1>(Probably) the best work ever</h1>
+    <section id="page-work">
+      <header
+        style={{
+          backgroundImage: "url('img/demo/machikado_mazoku_header.jpg')"
+        }}
+      >
+        <div className="dimmer">
+          <img src="img/demo/machikado_mazoku_cover.jpg" />
+          <div className="header">
+            <WorkInfo />
+            <h1>Machikado Mazoku</h1>
+          </div>
+        </div>
+      </header>
+      {Array(18).fill(<Activity />)}
     </section>
   )
 }
