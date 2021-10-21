@@ -1,7 +1,11 @@
+import "./style.less"
+
 import React from "react"
 import { useHistory } from "react-router"
 import { Toolbar } from "../../bottom-bar"
 import { useUsername } from "../../storage"
+import Icon from "@mdi/react"
+import { mdiAccountCircleOutline } from "@mdi/js"
 
 export default () => {
   const history = useHistory()
@@ -12,9 +16,11 @@ export default () => {
   }
 
   return (
-    <section>
-      <h1>Hi! I'm the one and only user! 👴🏻</h1>
+    <section id="page-user">
+      <Icon path={mdiAccountCircleOutline} size="5rem" />
+      <h1 contentEditable>User</h1>
       <Toolbar>
+        <button onClick={logout}>Change Password</button>
         <button onClick={logout}>Log Out</button>
       </Toolbar>
     </section>

@@ -26,9 +26,9 @@ const Card = () => {
 }
 
 export default () => {
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   return (
-    <section id="page-works" onClick={() => setShowModal(!showModal)}>
+    <section id="page-works">
       {Array(6).fill(<Card />)}
       <Toolbar>
         <input type="text" placeholder="Search & Filters" />

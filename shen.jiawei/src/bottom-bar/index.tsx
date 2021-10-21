@@ -97,7 +97,7 @@ export default () => {
               timeout={300}
             >
               <Switch>
-                <Route path={noBack}>
+                <Route path={noBack} exact>
                   <NavLink to="/map" {...navlinkProps}>
                     <NavIcon path={mdiMapMarker} />
                   </NavLink>

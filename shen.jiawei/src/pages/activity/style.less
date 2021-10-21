@@ -3,6 +3,13 @@
   background-color: white;
   box-shadow: 0 0 10px #222;
 
+  header {
+    padding-top: 1rem;
+    h1 {
+      margin: var(--toolbar-margin);
+    }
+  }
+
   & > div {
     overflow: scroll;
     height: 80vh;
@@ -10,7 +17,11 @@
     & > div {
       width: 100%;
       height: 100vh;
-      background: linear-gradient(salmon, pink);
+      // background: linear-gradient(salmon, pink);
+
+      p {
+        margin: var(--toolbar-margin);
+      }
     }
   }
 }
