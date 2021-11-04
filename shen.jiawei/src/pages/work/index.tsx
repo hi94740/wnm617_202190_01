@@ -3,6 +3,7 @@ import "./style.less"
 import React from "react"
 import { WorkInfo } from "./work-info"
 import { Link } from "react-router-dom"
+import FloatButton from "../../components/float-button"
 
 const Activity = () => {
   return (
@@ -30,6 +31,8 @@ export default () => {
         </div>
       </header>
       {Array(18).fill(<Activity />)}
+      <FloatButton />
+      <div className="bottom-spacer-with-float-button" />
     </section>
   )
 }

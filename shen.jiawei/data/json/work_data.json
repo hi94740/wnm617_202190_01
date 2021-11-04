@@ -1,0 +1,452 @@
+[
+  {
+    "id": 1,
+    "user_id": 7,
+    "name": "Sybixtex",
+    "type": "series",
+    "tags": "Action,Drama,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/978/fff/?text=Sybixtex",
+    "date_create": "2020-11-20 01:24:40"
+  },
+  {
+    "id": 2,
+    "user_id": 7,
+    "name": "Powernet",
+    "type": "series",
+    "tags": "Action,Anime,Love,Sci-Fi,Thriller",
+    "img": "https://via.placeholder.com/360x510/883/fff/?text=Powernet",
+    "date_create": "2020-01-05 05:58:33"
+  },
+  {
+    "id": 3,
+    "user_id": 6,
+    "name": "Isoplex",
+    "type": "single",
+    "tags": "Love,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/918/fff/?text=Isoplex",
+    "date_create": "2020-07-23 10:13:33"
+  },
+  {
+    "id": 4,
+    "user_id": 3,
+    "name": "Pearlessa",
+    "type": "single",
+    "tags": "Anime,Love,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/794/fff/?text=Pearlessa",
+    "date_create": "2021-08-02 08:34:11"
+  },
+  {
+    "id": 5,
+    "user_id": 3,
+    "name": "Fanfare",
+    "type": "series",
+    "tags": "Action,Anime,Love,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/906/fff/?text=Fanfare",
+    "date_create": "2021-01-26 07:39:55"
+  },
+  {
+    "id": 6,
+    "user_id": 7,
+    "name": "Stralum",
+    "type": "series",
+    "tags": "Action,Sci-Fi,Thriller",
+    "img": "https://via.placeholder.com/360x510/861/fff/?text=Stralum",
+    "date_create": "2020-09-26 11:07:26"
+  },
+  {
+    "id": 7,
+    "user_id": 7,
+    "name": "Poochies",
+    "type": "single",
+    "tags": "Action",
+    "img": "https://via.placeholder.com/360x510/741/fff/?text=Poochies",
+    "date_create": "2020-01-04 12:11:18"
+  },
+  {
+    "id": 8,
+    "user_id": 5,
+    "name": "Geeknet",
+    "type": "single",
+    "tags": "Anime,Drama,Love,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/965/fff/?text=Geeknet",
+    "date_create": "2020-10-28 04:26:31"
+  },
+  {
+    "id": 9,
+    "user_id": 1,
+    "name": "Quizka",
+    "type": "single",
+    "tags": "Anime,Drama,Love",
+    "img": "https://via.placeholder.com/360x510/758/fff/?text=Quizka",
+    "date_create": "2020-03-28 04:22:40"
+  },
+  {
+    "id": 10,
+    "user_id": 2,
+    "name": "Isonus",
+    "type": "single",
+    "tags": "",
+    "img": "https://via.placeholder.com/360x510/869/fff/?text=Isonus",
+    "date_create": "2021-02-25 01:10:12"
+  },
+  {
+    "id": 11,
+    "user_id": 9,
+    "name": "Cinaster",
+    "type": "single",
+    "tags": "Anime,Drama,Thriller",
+    "img": "https://via.placeholder.com/360x510/826/fff/?text=Cinaster",
+    "date_create": "2020-07-05 09:59:26"
+  },
+  {
+    "id": 12,
+    "user_id": 6,
+    "name": "Remotion",
+    "type": "single",
+    "tags": "Action,Anime,Sci-Fi,Thriller",
+    "img": "https://via.placeholder.com/360x510/940/fff/?text=Remotion",
+    "date_create": "2020-12-24 11:31:59"
+  },
+  {
+    "id": 13,
+    "user_id": 1,
+    "name": "Isologics",
+    "type": "single",
+    "tags": "",
+    "img": "https://via.placeholder.com/360x510/720/fff/?text=Isologics",
+    "date_create": "2020-12-13 09:06:56"
+  },
+  {
+    "id": 14,
+    "user_id": 4,
+    "name": "Accuprint",
+    "type": "single",
+    "tags": "Action,Anime,Love",
+    "img": "https://via.placeholder.com/360x510/838/fff/?text=Accuprint",
+    "date_create": "2021-04-14 08:47:48"
+  },
+  {
+    "id": 15,
+    "user_id": 4,
+    "name": "Earbang",
+    "type": "series",
+    "tags": "Anime,Drama,Love,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/877/fff/?text=Earbang",
+    "date_create": "2021-03-09 11:45:52"
+  },
+  {
+    "id": 16,
+    "user_id": 3,
+    "name": "Furnitech",
+    "type": "single",
+    "tags": "Action,Drama,Sci-Fi,Thriller",
+    "img": "https://via.placeholder.com/360x510/736/fff/?text=Furnitech",
+    "date_create": "2021-01-10 03:59:08"
+  },
+  {
+    "id": 17,
+    "user_id": 5,
+    "name": "Comvene",
+    "type": "series",
+    "tags": "Love,Sci-Fi,Thriller",
+    "img": "https://via.placeholder.com/360x510/795/fff/?text=Comvene",
+    "date_create": "2020-07-23 03:38:24"
+  },
+  {
+    "id": 18,
+    "user_id": 4,
+    "name": "Bitendrex",
+    "type": "single",
+    "tags": "",
+    "img": "https://via.placeholder.com/360x510/837/fff/?text=Bitendrex",
+    "date_create": "2020-09-26 05:55:25"
+  },
+  {
+    "id": 19,
+    "user_id": 7,
+    "name": "Jasper",
+    "type": "single",
+    "tags": "Love,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/853/fff/?text=Jasper",
+    "date_create": "2021-07-13 02:23:46"
+  },
+  {
+    "id": 20,
+    "user_id": 2,
+    "name": "Comtent",
+    "type": "series",
+    "tags": "Action,Drama,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/933/fff/?text=Comtent",
+    "date_create": "2020-08-01 11:00:49"
+  },
+  {
+    "id": 21,
+    "user_id": 4,
+    "name": "Tubalum",
+    "type": "single",
+    "tags": "Anime",
+    "img": "https://via.placeholder.com/360x510/918/fff/?text=Tubalum",
+    "date_create": "2021-02-20 07:17:42"
+  },
+  {
+    "id": 22,
+    "user_id": 1,
+    "name": "Snips",
+    "type": "series",
+    "tags": "Drama,Love,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/803/fff/?text=Snips",
+    "date_create": "2020-11-29 06:20:32"
+  },
+  {
+    "id": 23,
+    "user_id": 9,
+    "name": "Cogentry",
+    "type": "single",
+    "tags": "Anime,Love,Thriller",
+    "img": "https://via.placeholder.com/360x510/772/fff/?text=Cogentry",
+    "date_create": "2021-02-09 05:25:59"
+  },
+  {
+    "id": 24,
+    "user_id": 7,
+    "name": "Insectus",
+    "type": "series",
+    "tags": "Sci-Fi,Thriller",
+    "img": "https://via.placeholder.com/360x510/777/fff/?text=Insectus",
+    "date_create": "2020-12-11 04:39:30"
+  },
+  {
+    "id": 25,
+    "user_id": 3,
+    "name": "Aquamate",
+    "type": "series",
+    "tags": "",
+    "img": "https://via.placeholder.com/360x510/830/fff/?text=Aquamate",
+    "date_create": "2021-05-04 06:23:54"
+  },
+  {
+    "id": 26,
+    "user_id": 6,
+    "name": "Sentia",
+    "type": "series",
+    "tags": "Drama,Love",
+    "img": "https://via.placeholder.com/360x510/859/fff/?text=Sentia",
+    "date_create": "2020-08-05 08:11:15"
+  },
+  {
+    "id": 27,
+    "user_id": 3,
+    "name": "Strozen",
+    "type": "single",
+    "tags": "Action,Anime,Drama,Love,Thriller",
+    "img": "https://via.placeholder.com/360x510/710/fff/?text=Strozen",
+    "date_create": "2021-04-01 12:04:24"
+  },
+  {
+    "id": 28,
+    "user_id": 9,
+    "name": "Exoteric",
+    "type": "single",
+    "tags": "Action,Anime",
+    "img": "https://via.placeholder.com/360x510/928/fff/?text=Exoteric",
+    "date_create": "2020-08-27 08:35:45"
+  },
+  {
+    "id": 29,
+    "user_id": 8,
+    "name": "Geologix",
+    "type": "series",
+    "tags": "Action",
+    "img": "https://via.placeholder.com/360x510/975/fff/?text=Geologix",
+    "date_create": "2020-11-19 05:19:47"
+  },
+  {
+    "id": 30,
+    "user_id": 2,
+    "name": "Plasmosis",
+    "type": "series",
+    "tags": "",
+    "img": "https://via.placeholder.com/360x510/900/fff/?text=Plasmosis",
+    "date_create": "2021-08-26 07:08:39"
+  },
+  {
+    "id": 31,
+    "user_id": 2,
+    "name": "Oronoko",
+    "type": "series",
+    "tags": "Love,Thriller",
+    "img": "https://via.placeholder.com/360x510/726/fff/?text=Oronoko",
+    "date_create": "2020-05-23 04:05:34"
+  },
+  {
+    "id": 32,
+    "user_id": 3,
+    "name": "Gynko",
+    "type": "single",
+    "tags": "Action,Drama,Love",
+    "img": "https://via.placeholder.com/360x510/915/fff/?text=Gynko",
+    "date_create": "2021-02-16 04:42:03"
+  },
+  {
+    "id": 33,
+    "user_id": 9,
+    "name": "Martgo",
+    "type": "single",
+    "tags": "Action,Anime",
+    "img": "https://via.placeholder.com/360x510/773/fff/?text=Martgo",
+    "date_create": "2021-07-06 09:17:32"
+  },
+  {
+    "id": 34,
+    "user_id": 10,
+    "name": "Farmage",
+    "type": "series",
+    "tags": "Action,Anime,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/872/fff/?text=Farmage",
+    "date_create": "2020-07-12 08:44:04"
+  },
+  {
+    "id": 35,
+    "user_id": 9,
+    "name": "Prosure",
+    "type": "single",
+    "tags": "",
+    "img": "https://via.placeholder.com/360x510/703/fff/?text=Prosure",
+    "date_create": "2021-06-01 08:03:38"
+  },
+  {
+    "id": 36,
+    "user_id": 8,
+    "name": "Genmom",
+    "type": "series",
+    "tags": "Action,Anime,Drama,Love,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/958/fff/?text=Genmom",
+    "date_create": "2020-01-03 04:54:02"
+  },
+  {
+    "id": 37,
+    "user_id": 10,
+    "name": "Emergent",
+    "type": "single",
+    "tags": "Anime,Drama,Thriller",
+    "img": "https://via.placeholder.com/360x510/747/fff/?text=Emergent",
+    "date_create": "2021-05-25 05:30:42"
+  },
+  {
+    "id": 38,
+    "user_id": 9,
+    "name": "Digique",
+    "type": "single",
+    "tags": "Drama,Thriller",
+    "img": "https://via.placeholder.com/360x510/710/fff/?text=Digique",
+    "date_create": "2021-06-10 09:13:24"
+  },
+  {
+    "id": 39,
+    "user_id": 6,
+    "name": "Ezentia",
+    "type": "series",
+    "tags": "Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/939/fff/?text=Ezentia",
+    "date_create": "2020-12-25 05:09:41"
+  },
+  {
+    "id": 40,
+    "user_id": 1,
+    "name": "Sunclipse",
+    "type": "series",
+    "tags": "Drama",
+    "img": "https://via.placeholder.com/360x510/754/fff/?text=Sunclipse",
+    "date_create": "2021-04-27 02:31:21"
+  },
+  {
+    "id": 41,
+    "user_id": 9,
+    "name": "Olympix",
+    "type": "series",
+    "tags": "Drama,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/807/fff/?text=Olympix",
+    "date_create": "2021-03-18 09:52:25"
+  },
+  {
+    "id": 42,
+    "user_id": 8,
+    "name": "Apexia",
+    "type": "series",
+    "tags": "",
+    "img": "https://via.placeholder.com/360x510/974/fff/?text=Apexia",
+    "date_create": "2021-02-23 06:48:52"
+  },
+  {
+    "id": 43,
+    "user_id": 6,
+    "name": "Unisure",
+    "type": "series",
+    "tags": "Anime",
+    "img": "https://via.placeholder.com/360x510/705/fff/?text=Unisure",
+    "date_create": "2021-02-02 01:55:57"
+  },
+  {
+    "id": 44,
+    "user_id": 6,
+    "name": "Sequitur",
+    "type": "series",
+    "tags": "Action",
+    "img": "https://via.placeholder.com/360x510/756/fff/?text=Sequitur",
+    "date_create": "2020-10-13 11:24:40"
+  },
+  {
+    "id": 45,
+    "user_id": 7,
+    "name": "Suremax",
+    "type": "single",
+    "tags": "Action,Drama",
+    "img": "https://via.placeholder.com/360x510/739/fff/?text=Suremax",
+    "date_create": "2020-08-22 07:53:04"
+  },
+  {
+    "id": 46,
+    "user_id": 3,
+    "name": "Memora",
+    "type": "single",
+    "tags": "",
+    "img": "https://via.placeholder.com/360x510/980/fff/?text=Memora",
+    "date_create": "2020-09-01 10:08:45"
+  },
+  {
+    "id": 47,
+    "user_id": 5,
+    "name": "Insource",
+    "type": "single",
+    "tags": "Drama,Sci-Fi",
+    "img": "https://via.placeholder.com/360x510/734/fff/?text=Insource",
+    "date_create": "2020-03-22 01:52:01"
+  },
+  {
+    "id": 48,
+    "user_id": 6,
+    "name": "Premiant",
+    "type": "series",
+    "tags": "Thriller",
+    "img": "https://via.placeholder.com/360x510/737/fff/?text=Premiant",
+    "date_create": "2020-10-01 02:59:33"
+  },
+  {
+    "id": 49,
+    "user_id": 5,
+    "name": "Injoy",
+    "type": "series",
+    "tags": "Action,Drama,Sci-Fi,Thriller",
+    "img": "https://via.placeholder.com/360x510/940/fff/?text=Injoy",
+    "date_create": "2021-06-28 04:17:22"
+  },
+  {
+    "id": 50,
+    "user_id": 1,
+    "name": "Cosmetex",
+    "type": "single",
+    "tags": "Anime,Thriller",
+    "img": "https://via.placeholder.com/360x510/819/fff/?text=Cosmetex",
+    "date_create": "2020-09-12 09:00:07"
+  }
+]

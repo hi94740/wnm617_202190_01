@@ -5,6 +5,7 @@ import ActivityPage from "../activity"
 import { Route, useLocation } from "react-router"
 import { usePageScrollAnimation } from "../../utils/scroll"
 import { Toolbar } from "../../bottom-bar"
+import FloatButton from "../../components/float-button"
 
 export default () => {
   const location = useLocation()
@@ -21,15 +22,14 @@ export default () => {
       <div
         ref={mapContainer}
         style={{
-          height:
-            isActivityPage
-              ? "calc(100vh - 2 * (var(--toolbar-height) + var(--toolbar-margin)))"
-              : "100vh"
+          height: isActivityPage
+            ? "calc(100vh - 2 * (var(--toolbar-height) + var(--toolbar-margin)))"
+            : "100vh"
         }}
       >
         <img src="img/demo/map.png" />
       </div>
-      {isActivityPage ? <ActivityPage /> : null}
+      {isActivityPage ? <ActivityPage /> : <FloatButton />}
       <Toolbar>
         <input type="text" placeholder="Search & Filters" />
       </Toolbar>

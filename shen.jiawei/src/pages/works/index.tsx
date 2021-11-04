@@ -10,6 +10,7 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { Toolbar, ToolbarModal } from "../../bottom-bar"
 import { WorkInfo } from "../work/work-info"
+import FloatButton, { ModalButton } from "../../components/float-button"
 
 const Card = () => {
   return (
@@ -26,10 +27,13 @@ const Card = () => {
 }
 
 export default () => {
-  const [showModal, setShowModal] = useState(false)
+  // const [showModal, setShowModal] = useState(false)
   return (
     <section id="page-works">
       {Array(6).fill(<Card />)}
+      <ModalButton>
+        <div></div>
+      </ModalButton>
       <Toolbar>
         <input type="text" placeholder="Search & Filters" />
         <Icon
@@ -38,7 +42,7 @@ export default () => {
           style={{ marginRight: "10px" }}
         />
       </Toolbar>
-      <ToolbarModal show={showModal}>Test</ToolbarModal>
+      <div className="bottom-spacer-with-float-button" />
     </section>
   )
 }
