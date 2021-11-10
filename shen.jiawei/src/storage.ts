@@ -1,3 +1,4 @@
 import { useStorageState } from "react-storage-hooks"
+import { UserID } from "./api/ids"
 
-export const useUsername = () => useStorageState(sessionStorage, "username", null as string)
+export const useUserID = () => useStorageState(sessionStorage, "userID", null as UserID)

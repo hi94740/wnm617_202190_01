@@ -3,15 +3,15 @@ import "./style.less"
 import React from "react"
 import { useHistory } from "react-router"
 import { Toolbar } from "../../bottom-bar"
-import { useUsername } from "../../storage"
+import { useUserID } from "../../storage"
 import Icon from "@mdi/react"
 import { mdiAccountCircleOutline } from "@mdi/js"
 
 export default () => {
   const history = useHistory()
-  const [, setUsername] = useUsername()
+  const [, setUserID] = useUserID()
   const logout = () => {
-    setUsername(null)
+    setUserID(null)
     setTimeout(() => history.push("/"))
   }
 

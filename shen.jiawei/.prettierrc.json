@@ -2,6 +2,5 @@
   "semi": false,
   "trailingComma": "none",
   "arrowParens": "avoid",
-  "vueIndentScriptAndStyle": true,
   "bracketSpacing": true
 }

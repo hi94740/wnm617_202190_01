@@ -11,15 +11,17 @@ import { Link } from "react-router-dom"
 import { Toolbar, ToolbarModal } from "../../bottom-bar"
 import { WorkInfo } from "../work/work-info"
 import FloatButton, { ModalButton } from "../../components/float-button"
+import { useWorksQuery } from "../../api/query"
+import type WorkData from "../../api/data-tables/WorkData"
 
-const Card = () => {
+const Card = (w: WorkData) => {
   return (
     <Link to="/work">
       <div className="card-work">
-        <img src="img/demo/machikado_mazoku_cover.jpg" />
+        <img src={w.img} />
         <div>
-          <h2>Machikado Mazoku</h2>
-          <WorkInfo />
+          <h2>{w.name}</h2>
+          <WorkInfo {...w} />
         </div>
       </div>
     </Link>
@@ -27,10 +29,10 @@ const Card = () => {
 }
 
 export default () => {
-  // const [showModal, setShowModal] = useState(false)
+  const { data } = useWorksQuery()
   return (
     <section id="page-works">
-      {Array(6).fill(<Card />)}
+      {data?.map(work => <Card key={"work-card-" + work.id} {...work} />) || "loading..."}
       <ModalButton>
         <div></div>
       </ModalButton>

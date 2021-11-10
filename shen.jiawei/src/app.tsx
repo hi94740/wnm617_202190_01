@@ -11,19 +11,19 @@ import WorkPage from "./pages/work"
 import UserPage from "./pages/user"
 import BottomBar from "./bottom-bar"
 
-import { useUsername } from "./storage"
+import { useUserID } from "./storage"
 
 const pageWithoutLogin = ["/"]
 
 export default () => {
   const history = useHistory()
   const location = useLocation()
-  const [username] = useUsername()
+  const [userID] = useUserID()
 
   useEffect(() => {
-    if (!pageWithoutLogin.includes(location.pathname) && !username)
+    if (!pageWithoutLogin.includes(location.pathname) && !userID)
       history.push("/")
-    if (pageWithoutLogin.includes(location.pathname) && username)
+    if (pageWithoutLogin.includes(location.pathname) && userID)
       history.push("/map")
   }, [])
 

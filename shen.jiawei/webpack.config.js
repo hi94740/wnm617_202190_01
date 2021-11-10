@@ -5,11 +5,12 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
  * @type { import("webpack").Configuration }
  */
 
-module.exports = {
+module.exports = env => ({
   entry: "./src/index.tsx",
   output: {
     filename: "bundle.js",
-    path: Path.resolve(__dirname, "dist")
+    path: Path.resolve(__dirname, "dist"),
+    publicPath: "/dist/"
   },
   mode: "development",
   devtool: "inline-source-map",
@@ -38,5 +39,24 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".less"]
   },
-  plugins: [new BundleAnalyzerPlugin()]
-}
+  plugins: [
+    ...(env.WEBPACK_SERVE
+      ? []
+      : [new BundleAnalyzerPlugin({ analyzerMode: "static" })])
+  ],
+  devServer: {
+    client: {
+      progress: true
+    },
+    proxy: {
+      "/php": {
+        target: "http://shenjiaweb.com",
+        pathRewrite: { "^/php": "/wnm617/shen.jiawei/php" },
+        changeOrigin: true
+      }
+    },
+    static: {
+      directory: __dirname
+    }
+  }
+})

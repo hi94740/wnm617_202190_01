@@ -3,3 +3,5 @@
 *sftp-config.json
 *auth.php
 node_modules/
+*deploy*
+public/
