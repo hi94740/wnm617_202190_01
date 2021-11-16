@@ -55,3 +55,12 @@ export type FilterPropertyByArray<T, A> = {
     [Q in keyof P]: Q extends keyof T ? T[Q] : never
   }>
 }
+export type Override<
+  T,
+  O extends {
+    [P in keyof T]+?: any
+  }
+> = {
+  [P in keyof T]: P extends keyof O ? O[P] : T[P]
+}
+export type PickR<T, K extends keyof T> = Required<Pick<T, K>>

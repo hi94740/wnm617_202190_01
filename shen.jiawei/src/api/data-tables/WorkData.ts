@@ -1,7 +1,8 @@
-import { KVPair } from "../../utils/types"
-import { UserID, WorkID } from "../ids"
+import type { KVPair, Override } from "../../utils/types"
+import type { UserID, WorkID } from "../ids"
+import { DataTableConverter } from "./DataTableConverter"
 
-interface RawWorkData {
+export interface RawWorkData {
   id?: number
   user_id?: number
   type?: string
@@ -11,24 +12,38 @@ interface RawWorkData {
   date_create?: number
 }
 
-type WorkType = "single" | "series"
-type WorkTag = "Anime" | "Drama" | "Love" | "Sci-Fi" | "Thriller" | "Action"
+export type WorkType = "single" | "series"
+export type WorkTag =
+  | "Anime"
+  | "Drama"
+  | "Love"
+  | "Sci-Fi"
+  | "Thriller"
+  | "Action"
+export const WorkTags = [
+  "Anime",
+  "Drama",
+  "Love",
+  "Sci-Fi",
+  "Thriller",
+  "Action"
+] as const
 
-type ParsedWorkData = {
-  [P in keyof RawWorkData]: P extends "id"
-    ? WorkID
-    : P extends "user_id"
-    ? UserID
-    : P extends "type"
-    ? WorkType
-    : P extends "tags"
-    ? Set<WorkTag>
-    : P extends "date_create"
-    ? Date
-    : RawWorkData[P]
-}
+type ParsedWorkData = Override<
+  RawWorkData,
+  {
+    id: WorkID
+    user_id: UserID
+    type: WorkType
+    tags: Set<WorkTag>
+    date_create: Date
+  }
+>
 
-export class WorkData implements ParsedWorkData {
+class WorkData
+  extends DataTableConverter<RawWorkData>
+  implements ParsedWorkData
+{
   id?: WorkID
   user_id?: UserID
   name?: string
@@ -37,28 +52,17 @@ export class WorkData implements ParsedWorkData {
   img?: string
   date_create?: Date
   constructor(rawData: RawWorkData) {
-    Object.entries(rawData).forEach(([k, v]: KVPair<RawWorkData>) => {
-      const key = k
-      switch (key) {
-        case "id":
-          this[key] = v as WorkID
-          break
-        case "user_id":
-          this[key] = v as UserID
-          break
-        case "date_create":
-          this[key] = new Date(v)
-          break
-        case "type":
-          this[key] = v as WorkType
-          break
-        case "tags":
-          this[key] = new Set((v as string).split(",") as WorkTag[])
-          break
-        default:
-          this[key] = v as ParsedWorkData[typeof key]
-      }
-    })
+    super(rawData)
+    this.id = rawData.id as WorkID
+    this.user_id = rawData.user_id as UserID
+    this.name = rawData.name
+    this.type = rawData.type as WorkType
+    this.tags = new Set((rawData.tags)?.split(",") as WorkTag[])
+    this.img = rawData.img
+    this.date_create = new Date(rawData.date_create)
+  }
+  toRawData() {
+    return {} as RawWorkData
   }
 }
 

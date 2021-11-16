@@ -54,4 +54,8 @@ $queryTemplate = implode(" ", $queryTemplate);
 // echo $queryTemplate;
 $query = $db->prepare($queryTemplate);
 $query->execute($queryOptions);
-echo json_encode($query->fetchAll(PDO::FETCH_ASSOC));
+$result = array_map(function($r) {
+  return array_filter($r, function($k) { return $k!="password"; }, ARRAY_FILTER_USE_KEY);
+}, $query->fetchAll(PDO::FETCH_ASSOC));
+echo json_encode($result);
+// echo '<pre>'; print_r($result); echo '</pre>';

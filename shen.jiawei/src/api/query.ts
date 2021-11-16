@@ -1,6 +1,6 @@
 import { useObservable, useObservableState } from "observable-hooks"
 import { useState } from "react"
-import { from, switchMap } from "rxjs"
+import { firstValueFrom, from, mergeMap, switchMap, timer } from "rxjs"
 import { useUserID } from "../storage"
 import type {
   AllPossibleArray,
@@ -9,20 +9,31 @@ import type {
   KVPairWithTypeAssertion,
   OnlyOnePropertyAtATime
 } from "../utils/types"
+import { DataTableConverter } from "./data-tables/DataTableConverter"
+import ActivityData, { ActivityDataTypes } from "./data-tables/ActivityData"
 import UserData, { UserDataTypes } from "./data-tables/UserData"
 import WorkData, { WorkDataTypes } from "./data-tables/WorkData"
 
 interface TableDataTypes {
   users: UserDataTypes
   works: WorkDataTypes
+  activities: ActivityDataTypes
 }
 const DataClasses: {
-  [TableName in keyof TableDataTypes]: TableDataTypes[TableName][2]
+  [TableName in keyof TableDataTypes]: TableDataTypes[TableName][0] extends InstanceType<
+    TableDataTypes[TableName][2]
+  >
+    ? TableDataTypes[TableName][0] extends DataTableConverter<
+        TableDataTypes[TableName][1]
+      >
+      ? TableDataTypes[TableName][2]
+      : never
+    : never
 } = {
   users: UserData,
-  works: WorkData
+  works: WorkData,
+  activities: ActivityData
 }
-
 type Tables = {
   [TableName in keyof TableDataTypes]: TableDataTypes[TableName][0]
 }
@@ -57,24 +68,48 @@ type SQLWhere<TableName extends keyof Tables> = InterfaceToUnion<{
 // interface SQLWhereFilters<TableName extends keyof Tables> {
 //   equals: [keyof Tables[TableName], InterfaceToUnion<Tables[TableName]>][]
 // }
+export interface SQLSortAndFilters<TableName extends keyof Tables> {
+  where?: SQLWhere<TableName>
+}
+
+// interface SQLJoinQuery<
+//   TableNameA extends keyof Tables,
+//   TableNameB extends Exclude<keyof Tables, TableNameA>
+// > extends SQLSortAndFilters<TableNameA> {
+//   select?: {
+//     a: Array<keyof Tables[TableNameA]>
+//     b: Array<keyof Tables[TableNameB]>
+//   }
+//   id_col: InterfaceToUnion<{
+//     [ColName in keyof Tables[TableNameB] as Tables[TableNameB][ColName] extends Tables[TableNameA]["id"]
+//       ? "id"
+//       : never]: ColName
+//   }>
+//   join?: SQLSortAndFilters<TableNameB>
+// }
 
 export const query = async <
   TableName extends keyof Tables,
   CRUDColNames extends AllPossibleArray<keyof Tables[TableName]>,
-  Action extends OnlyOnePropertyAtATime<
-    SQLCRUDActions<TableName, CRUDColNames>
-  >,
-  Where extends SQLWhere<TableName>
+  Action extends OnlyOnePropertyAtATime<SQLCRUDActions<TableName, CRUDColNames>>
 >(
   table: TableName,
-  q?: Action & { where?: Where }
+  q?: Action & SQLSortAndFilters<TableName>
 ) => {
   const res = (await (
-    await fetch("php/api.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ table, q: q || { select: "*" } })
-    })
+    await firstValueFrom(
+      timer(0, 3000).pipe(
+        mergeMap(() =>
+          from(
+            fetch("php/api.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ table, q: q || { select: "*" } })
+            })
+          )
+        )
+      )
+    )
   ).json()) as Array<RawTables[typeof table]>
   if (q.select)
     return res.map(
@@ -82,7 +117,8 @@ export const query = async <
         new DataClasses[table](data) as FilterPropertyByArray<
           Tables[TableName],
           CRUDColNames
-        >
+        > &
+          DataTableConverter<TableDataTypes[TableName][1]>
     )
 }
 
@@ -90,7 +126,7 @@ export const queryUsers = <
   ColNames extends AllPossibleArray<keyof Tables["users"]>
 >(
   select: SQLCRUDActions<"users", ColNames>["select"] = "*",
-  q?: { where?: SQLWhere<"users"> }
+  q?: SQLSortAndFilters<"users">
 ) =>
   query("users", {
     select,
@@ -101,7 +137,7 @@ export const queryWorks = <
   ColNames extends AllPossibleArray<keyof Tables["works"]>
 >(
   select: SQLCRUDActions<"works", ColNames>["select"] = "*",
-  q?: { where?: SQLWhere<"works"> }
+  q?: SQLSortAndFilters<"works">
 ) =>
   query("works", {
     select,
@@ -112,7 +148,7 @@ export const useWorksQuery = <
   ColNames extends AllPossibleArray<keyof Tables["works"]>
 >(
   select: SQLCRUDActions<"works", ColNames>["select"] = "*",
-  q?: { where?: SQLWhere<"works"> }
+  q?: SQLSortAndFilters<"works">
 ) => {
   const [userID] = useUserID()
   const [sel, setSelect] = useState(select)

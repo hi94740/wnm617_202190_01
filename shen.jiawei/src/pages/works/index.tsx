@@ -11,11 +11,12 @@ import { Link } from "react-router-dom"
 import { Toolbar, ToolbarModal } from "../../bottom-bar"
 import { WorkInfo } from "../work/work-info"
 import FloatButton, { ModalButton } from "../../components/float-button"
-import { useWorksQuery } from "../../api/query"
 import type WorkData from "../../api/data-tables/WorkData"
+import type { PickR } from "../../utils/types"
+import { useQuery } from "../../api/predefined-query"
+import type { ActivityCount } from "../../api/data-tables/variations/work-data-with-activity-count"
 
-const Card = (w: WorkData) => {
-  return (
+const Card = (w: PickR<WorkData, "img" | "name" | "type" | "tags"> & ActivityCount) => (
     <Link to="/work">
       <div className="card-work">
         <img src={w.img} />
@@ -26,10 +27,9 @@ const Card = (w: WorkData) => {
       </div>
     </Link>
   )
-}
 
 export default () => {
-  const { data } = useWorksQuery()
+  const { data } = useQuery("works", {})
   return (
     <section id="page-works">
       {data?.map(work => <Card key={"work-card-" + work.id} {...work} />) || "loading..."}

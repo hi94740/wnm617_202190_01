@@ -3,7 +3,7 @@ import "./style.less"
 import React, { FormEventHandler } from "react"
 import { useHistory } from "react-router"
 import { useUserID } from "../../storage"
-import { queryUsers } from "../../api/query"
+import { query } from "../../api/predefined-query"
 
 export default () => {
   const history = useHistory()
@@ -17,13 +17,14 @@ export default () => {
       username: string
       password: string
     }
-    const [{ id }] = await queryUsers(["id"], {
-      where: [
-        ["=", ["username", input.username]],
-        "AND",
-        ["=", ["password", input.password]]
-      ]
-    })
+    // const [{ id }] = await queryUsers(["id"], {
+    //   where: [
+    //     ["=", ["username", input.username]],
+    //     "AND",
+    //     ["=", ["password", input.password]]
+    //   ]
+    // })
+    const [{ id }] = await query("login", [input.username, input.password])
     if (id) {
       setUserID(id)
       history.push("/map")

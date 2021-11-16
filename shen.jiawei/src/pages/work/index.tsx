@@ -25,7 +25,7 @@ export default () => {
         <div className="dimmer">
           <img src="img/demo/machikado_mazoku_cover.jpg" />
           <div className="header">
-            <WorkInfo />
+            {/* <WorkInfo /> */}
             <h1 contentEditable>Machikado Mazoku</h1>
           </div>
         </div>
