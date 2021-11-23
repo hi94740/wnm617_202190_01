@@ -7,6 +7,7 @@ export interface RawActivityData {
   work_id?: number
   lat?: number
   lng?: number
+  title?: string
   description?: string
   images?: string
   date_create?: number
@@ -33,6 +34,7 @@ class ActivityData
   work_id?: WorkID
   lat?: number
   lng?: number
+  title?: string
   description?: string
   images?: string
   date_create?: Date
@@ -42,6 +44,7 @@ class ActivityData
     this.work_id = rawData.work_id as WorkID
     this.lat = rawData.lat
     this.lng = rawData.lng
+    this.title = rawData.title
     this.description = rawData.description
     this.images = rawData.images
     this.date_create = new Date(rawData.date_create)

@@ -1,35 +1,69 @@
 import { mdiFilmstripBoxMultiple } from "@mdi/js"
 import Icon from "@mdi/react"
-import React, { useEffect } from "react"
+import { useObservable } from "observable-hooks"
+import React, { useEffect, useLayoutEffect } from "react"
 import { useHistory, useLocation } from "react-router"
+import { filter, firstValueFrom, map, skipWhile } from "rxjs"
+import { ActivityID } from "../../api/ids"
+import { useQuery } from "../../api/predefined-query"
+import { useGoBackHandler } from "../../bottom-bar"
 import { useLog } from "../../utils/dev"
+import { pageScrollObservable } from "../../utils/scroll"
+import { useURLQuery, useURLQueryObservable } from "../../utils/url-query"
+import { WorkTypeIcon } from "../work/work-info"
 import "./style.less"
 
 export default () => {
+  const urlQuery = useURLQuery()
   useEffect(() => {
-    setTimeout(() => window.scroll({ top: visualViewport.height * 0.7 }))
+    window.scroll({ top: visualViewport.height * 0.2, behavior: "smooth" })
   }, [])
 
-  useLog(useHistory())
+  const { goBack } = useHistory()
+  useGoBackHandler(async () => {
+    const startingY = window.scrollY
+    const minimumScroll = startingY * 0.25
+    // console.log("handling!")
+    window.scroll({ top: 0, behavior: "smooth" })
+    if (window.scrollY > minimumScroll)
+      await firstValueFrom(
+        pageScrollObservable().pipe(skipWhile(y => y > minimumScroll))
+      )
+    // console.log("go back!")
+    goBack()
+  })
+
+  // useLog(useHistory())
+
+  const id$ = useURLQueryObservable("activity")
+
+  const { data = [null], loading } = useQuery(
+    "activity",
+    // parseInt(urlQuery.get("activity")) as ActivityID
+    useObservable(() => id$.pipe(
+      map(id => parseInt(id) as ActivityID),
+      filter(id => !!id)
+    ))
+  )
+  const [a] = loading ? [null] : data
+
   return (
     <section id="page-activity">
       <header>
-        <h1 contentEditable>Activity Title</h1>
-        <div className="work-info" style={{marginLeft: "var(--toolbar-margin)"}}>
+        <h1>{a?.activity?.title || "Loading..."}</h1>
+        <div
+          className="work-info"
+          style={{ marginLeft: "var(--toolbar-margin)" }}
+        >
           <div className="category">
-            <Icon path={mdiFilmstripBoxMultiple} size="1.3rem" />
-            <div>Machikado Mazoku</div>
+            <WorkTypeIcon type={a?.work?.type || "single"} />
+            <div>{a?.work?.name || "Probably good work..."}</div>
           </div>
         </div>
       </header>
       <div>
-        <div contentEditable>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum,
-            quisquam recusandae ipsum quaerat voluptas animi dolores veritatis
-            commodi! Laboriosam eaque vero voluptatum earum assumenda minus
-            repudiandae laudantium pariatur deserunt aliquam.
-          </p>
+        <div>
+          <p>{a?.activity?.description || "Loading..."}</p>
         </div>
       </div>
     </section>

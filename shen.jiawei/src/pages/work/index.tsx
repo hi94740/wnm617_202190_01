@@ -7,7 +7,7 @@ import FloatButton from "../../components/float-button"
 
 const Activity = () => {
   return (
-    <Link to="/map/activity?activity">
+    <Link to="/map?activity=">
       <h3>Activity Title</h3>
       <p>12/28/2020 16:34</p>
     </Link>

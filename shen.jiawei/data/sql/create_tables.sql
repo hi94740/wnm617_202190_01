@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost:3306
--- 生成日期： 2021-11-02 01:16:02
+-- 生成日期： 2021-11-19 17:18:19
 -- 服务器版本： 5.6.51-cll-lve
 -- PHP 版本： 7.3.27
 
@@ -33,9 +33,9 @@ CREATE TABLE `activities` (
   `work_id` int(13) NOT NULL,
   `lat` decimal(8,6) NOT NULL,
   `lng` decimal(9,6) NOT NULL,
+  `title` varchar(32) NOT NULL,
   `description` text NOT NULL,
   `images` text NOT NULL,
-  `appeared_at` varchar(256) NOT NULL,
   `date_create` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

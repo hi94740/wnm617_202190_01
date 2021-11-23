@@ -3,6 +3,7 @@ import { useLayoutEffect } from "react"
 import {
   animationFrames,
   animationFrameScheduler,
+  debounceTime,
   distinctUntilChanged,
   EMPTY,
   exhaustMap,
@@ -14,10 +15,18 @@ import {
   timeout
 } from "rxjs"
 
-export const usePageScrollObservable = (
-  init = (o: Observable<Event>) => o as Observable<unknown>,
+export const pageScrollObservable = () =>
+  fromEvent(window, "scroll").pipe(map(() => window.scrollY))
+export const usePageScrollObservable = <T>(
+  init = (o: Observable<number>) => o as Observable<unknown> as Observable<T>,
   inputs?: Parameters<typeof useObservable>[1]
-) => useObservable(() => init(fromEvent(window, "scroll")), inputs)
+) => useObservable(() => init(pageScrollObservable()), inputs)
+
+export const usePreventPageHorizontalScrolling = () =>
+  useSubscription(
+    usePageScrollObservable(o => o.pipe(debounceTime(50))),
+    () => window.scrollX !== 0 && window.scroll({ left: 0 })
+  )
 
 export const usePageScrollAnimation = (callback: (scrollY: number) => void) =>
   useSubscription(
@@ -28,7 +37,7 @@ export const usePageScrollAnimation = (callback: (scrollY: number) => void) =>
             map(() => window.scrollY),
             distinctUntilChanged(),
             timeout({
-              each: 100,
+              each: 50,
               with: () => EMPTY
             }),
             tap(callback)
@@ -48,3 +57,5 @@ export const usePageScrollable = (state: boolean) => {
     }
   }, [state])
 }
+
+// addEventListener("scroll", () => console.log(scrollX))

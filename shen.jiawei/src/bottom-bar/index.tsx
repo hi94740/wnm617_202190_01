@@ -12,6 +12,7 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState
 } from "react"
 import { createPortal } from "react-dom"
@@ -19,6 +20,7 @@ import { NavLink, useHistory, Switch, Route } from "react-router-dom"
 import { useObservableCallback, useSubscription } from "observable-hooks"
 import { debounceTime, tap } from "rxjs"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
+import { useURLQuery } from "../utils/url-query"
 
 export const ToolbarContext = createContext({
   toolbarElement: null as HTMLDivElement,
@@ -28,6 +30,14 @@ export const ToolbarContext = createContext({
 })
 
 const noBack = ["/map", "/works", "/user"]
+
+let goBackHandler: (() => void) | null = null
+export const useGoBackHandler = (handler: () => void) =>
+  useEffect(() => {
+    if (goBackHandler) throw new Error("goBackHandler already defined!")
+    goBackHandler = handler
+    return () => (goBackHandler = null)
+  }, [])
 
 const NavIcon = (props: Parameters<typeof Icon>[0]) => {
   props = {
@@ -47,9 +57,11 @@ const NavIcon = (props: Parameters<typeof Icon>[0]) => {
 }
 
 export default () => {
-  const { goBack, location, ...history } = useHistory()
+  const { goBack, location } = useHistory()
+  const urlQuery = useURLQuery()
 
-  const backable = noBack.includes(location.pathname)
+  const backable =
+    !noBack.includes(location.pathname) || urlQuery.has("activity")
 
   const [navActive, setNavActive] = useState(false)
   const [handleTapNav, tapNav] = useObservableCallback(o =>
@@ -85,10 +97,10 @@ export default () => {
       <footer>
         <div ref={toolbarRef} />
         <nav
-          className={[navActive ? "active" : "", backable ? "" : "back"].join(
+          className={[navActive ? "active" : "", backable ? "back" : ""].join(
             " "
           )}
-          onClick={backable ? handleTapNav : undefined}
+          onClick={backable ? undefined : handleTapNav}
         >
           <TransitionGroup component={null}>
             <CSSTransition
@@ -96,8 +108,15 @@ export default () => {
               classNames="fade"
               timeout={300}
             >
-              <Switch>
-                <Route path={noBack} exact>
+              {backable ? (
+                <button onClick={() => (goBackHandler || goBack)()}>
+                  <Icon
+                    path={mdiArrowLeft}
+                    size="calc(var(--toolbar-height) / 2)"
+                  />
+                </button>
+              ) : (
+                <>
                   <NavLink to="/map" {...navlinkProps}>
                     <NavIcon path={mdiMapMarker} />
                   </NavLink>
@@ -107,16 +126,8 @@ export default () => {
                   <NavLink to="/user" {...navlinkProps}>
                     <NavIcon path={mdiAccount} />
                   </NavLink>
-                </Route>
-                <Route>
-                  <button onClick={goBack}>
-                    <Icon
-                      path={mdiArrowLeft}
-                      size="calc(var(--toolbar-height) / 2)"
-                    />
-                  </button>
-                </Route>
-              </Switch>
+                </>
+              )}
             </CSSTransition>
           </TransitionGroup>
         </nav>

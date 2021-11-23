@@ -2,8 +2,10 @@ import "./style.less"
 
 import React, { useRef } from "react"
 import ActivityPage from "../activity"
-import { Route, useLocation } from "react-router"
-import { usePageScrollAnimation } from "../../utils/scroll"
+import {
+  usePageScrollAnimation,
+  usePreventPageHorizontalScrolling
+} from "../../utils/scroll"
 import { Toolbar } from "../../bottom-bar"
 import FloatButton from "../../components/float-button"
 import { Map as GoogleMap, Marker, Overlay } from "rgm"
@@ -12,24 +14,39 @@ import ActivityData from "../../api/data-tables/ActivityData"
 import { useQuery } from "../../api/predefined-query"
 import Icon from "@mdi/react"
 import { mdiMapMarker } from "@mdi/js"
+import { useURLQuery } from "../../utils/url-query"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
+// import { GoogleMap, Marker } from "react-google-maps"
+// import withGoogleMap from "react-google-maps/lib/withGoogleMap"
 
-const ActivityMarker = (a: PickR<ActivityData, "id" | "lat" | "lng">) => (
-  <Marker {...a}>
-    <div>
-      <Icon path={mdiMapMarker} />
-    </div>
-  </Marker>
-)
+const ActivityMarker = (a: PickR<ActivityData, "id" | "lat" | "lng">) => {
+  const urlQuery = useURLQuery()
+  return (
+    <Marker {...a}>
+      <div
+        className="marker-container"
+        onClick={() =>
+          urlQuery[urlQuery.has("activity") ? "set" : "append"](
+            "activity",
+            a.id.toString()
+          )
+        }
+      >
+        <Icon path={mdiMapMarker} />
+      </div>
+    </Marker>
+  )
+}
 
 export default () => {
-  const location = useLocation()
+  const urlQuery = useURLQuery()
+  const isActivityPage = urlQuery.has("activity")
 
   const mapContainer = useRef(null as HTMLDivElement)
   usePageScrollAnimation(scroll =>
     mapContainer.current.style.setProperty("--scroll", scroll + "px")
   )
-
-  const isActivityPage = location.search == "?activity"
+  usePreventPageHorizontalScrolling()
 
   const { data } = useQuery("one_most_recent_activity_of_each_work", undefined)
 
@@ -39,7 +56,7 @@ export default () => {
         ref={mapContainer}
         style={{
           height: isActivityPage
-            ? "calc(100vh - 2 * (var(--toolbar-height) + var(--toolbar-margin)))"
+            ? "calc(90vh - 2 * (var(--toolbar-height) + var(--toolbar-margin)))"
             : "100vh"
         }}
       >
@@ -64,8 +81,31 @@ export default () => {
             )}
           </Overlay>
         </GoogleMap>
+        {/* {React.createElement(
+          withGoogleMap(() => (
+            <GoogleMap defaultCenter={{ lat: 37.70655, lng: -122.48498 }}>
+              {data?.map(
+                a =>
+                  <Marker key={"activity-marker-" + a.id} {...a}></Marker> ||
+                  null
+              )}
+            </GoogleMap>
+          )),
+          {
+            mapElement: <div style={{height: "100%"}} />,
+            containerElement: <div style={{height: "100%"}} />
+          }
+        )} */}
       </div>
-      {isActivityPage ? <ActivityPage /> : <FloatButton />}
+      <TransitionGroup component={null}>
+        <CSSTransition
+          classNames="slide-up"
+          timeout={500}
+          key={"isActivityPage-" + isActivityPage}
+        >
+          {isActivityPage ? <ActivityPage /> : <FloatButton />}
+        </CSSTransition>
+      </TransitionGroup>
       <Toolbar>
         <input type="text" placeholder="Search & Filters" />
       </Toolbar>
