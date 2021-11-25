@@ -57,7 +57,7 @@ class WorkData
     this.user_id = rawData.user_id as UserID
     this.name = rawData.name
     this.type = rawData.type as WorkType
-    this.tags = new Set((rawData.tags)?.split(",") as WorkTag[])
+    this.tags = new Set(rawData.tags?.split(",") as WorkTag[])
     this.img = rawData.img
     this.date_create = new Date(rawData.date_create)
   }

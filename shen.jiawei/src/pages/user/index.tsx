@@ -3,11 +3,11 @@ import "./style.less"
 import React from "react"
 import { useHistory } from "react-router"
 import { Toolbar } from "../../bottom-bar"
-import { useUserID } from "../../storage"
+import { useUserID, withUserID } from "../../storage"
 import Icon from "@mdi/react"
 import { mdiAccountCircleOutline } from "@mdi/js"
 
-export default () => {
+export default withUserID(() => {
   const history = useHistory()
   const [, setUserID] = useUserID()
   const logout = () => {
@@ -25,4 +25,4 @@ export default () => {
       </Toolbar>
     </section>
   )
-}
+})

@@ -16,6 +16,7 @@ import Icon from "@mdi/react"
 import { mdiMapMarker } from "@mdi/js"
 import { useURLQuery } from "../../utils/url-query"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
+import { withUserID } from "../../storage"
 // import { GoogleMap, Marker } from "react-google-maps"
 // import withGoogleMap from "react-google-maps/lib/withGoogleMap"
 
@@ -38,7 +39,7 @@ const ActivityMarker = (a: PickR<ActivityData, "id" | "lat" | "lng">) => {
   )
 }
 
-export default () => {
+export default withUserID(() => {
   const urlQuery = useURLQuery()
   const isActivityPage = urlQuery.has("activity")
 
@@ -111,4 +112,4 @@ export default () => {
       </Toolbar>
     </section>
   )
-}
+})

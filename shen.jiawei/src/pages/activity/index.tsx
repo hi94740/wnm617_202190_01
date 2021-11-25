@@ -40,10 +40,12 @@ export default () => {
   const { data = [null], loading } = useQuery(
     "activity",
     // parseInt(urlQuery.get("activity")) as ActivityID
-    useObservable(() => id$.pipe(
-      map(id => parseInt(id) as ActivityID),
-      filter(id => !!id)
-    ))
+    useObservable(() =>
+      id$.pipe(
+        map(id => parseInt(id) as ActivityID),
+        filter(id => !!id)
+      )
+    )
   )
   const [a] = loading ? [null] : data
 

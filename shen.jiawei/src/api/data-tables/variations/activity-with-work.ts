@@ -9,8 +9,8 @@ export interface RawActivityWithWorkData {
 }
 
 class ActivityWithWorkData<
-A extends keyof ActivityData = keyof ActivityData,
-W extends keyof WorkData = keyof WorkData
+  A extends keyof ActivityData = keyof ActivityData,
+  W extends keyof WorkData = keyof WorkData
 > extends DataTableConverter<RawActivityWithWorkData> {
   activity: PickR<ActivityData, A>
   work: PickR<WorkData, W>

@@ -107,11 +107,7 @@ export const useQuery = <
     Params
   >(o =>
     concat(of(parameters), o).pipe(
-      switchMap(p =>
-        p instanceof Observable
-          ? p
-          : of(p)
-      ),
+      switchMap(p => (p instanceof Observable ? p : of(p))),
       tap(() => {
         config?.onLoading?.()
         setLoading(true)

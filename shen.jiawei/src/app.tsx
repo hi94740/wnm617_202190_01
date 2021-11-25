@@ -21,49 +21,49 @@ export default () => {
   const [userID] = useUserID()
 
   useEffect(() => {
-    if (!pageWithoutLogin.includes(location.pathname) && !userID)
+    if (!pageWithoutLogin.includes(history.location.pathname) && !userID)
       history.push("/")
-    if (pageWithoutLogin.includes(location.pathname) && userID)
+    if (pageWithoutLogin.includes(history.location.pathname) && userID)
       history.push("/map")
   }, [])
 
   return (
-      <TransitionGroup component={null}>
-        <CSSTransition
-          key={"page-" + location.pathname}
-          classNames="fade"
-          timeout={300}
-        >
-          <Switch location={location}>
-            <Route exact path="/">
-              <LoginPage />
-            </Route>
-            <Route path={["/map", "/activity"]}>
-              <MapPage />
-            </Route>
-            <Route path="/works">
-              <WorksPage />
-            </Route>
-            <Route path="/work">
-              <WorkPage />
-            </Route>
-            <Route path="/user">
-              <UserPage />
-            </Route>
-          </Switch>
-        </CSSTransition>
-        <CSSTransition
-          key={"show-bottom-bar-" + (location.pathname == "/")}
-          classNames="fade"
-          timeout={300}
-        >
-          <Switch location={location}>
-            <Route exact path="/"></Route>
-            <Route>
-              <BottomBar />
-            </Route>
-          </Switch>
-        </CSSTransition>
-      </TransitionGroup>
+    <TransitionGroup component={null}>
+      <CSSTransition
+        key={"page-" + location.pathname}
+        classNames="fade"
+        timeout={300}
+      >
+        <Switch location={location}>
+          <Route exact path="/">
+            <LoginPage />
+          </Route>
+          <Route path={["/map", "/activity"]}>
+            <MapPage />
+          </Route>
+          <Route path="/works">
+            <WorksPage />
+          </Route>
+          <Route path="/work">
+            <WorkPage />
+          </Route>
+          <Route path="/user">
+            <UserPage />
+          </Route>
+        </Switch>
+      </CSSTransition>
+      <CSSTransition
+        key={"show-bottom-bar-" + (location.pathname == "/")}
+        classNames="fade"
+        timeout={300}
+      >
+        <Switch location={location}>
+          <Route exact path="/"></Route>
+          <Route>
+            <BottomBar />
+          </Route>
+        </Switch>
+      </CSSTransition>
+    </TransitionGroup>
   )
 }

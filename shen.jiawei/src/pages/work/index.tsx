@@ -4,6 +4,7 @@ import React from "react"
 import { WorkInfo } from "./work-info"
 import { Link } from "react-router-dom"
 import FloatButton from "../../components/float-button"
+import { withUserID } from "../../storage"
 
 const Activity = () => {
   return (
@@ -14,7 +15,7 @@ const Activity = () => {
   )
 }
 
-export default () => {
+export default withUserID(() => {
   return (
     <section id="page-work">
       <header
@@ -35,4 +36,4 @@ export default () => {
       <div className="bottom-spacer-with-float-button" />
     </section>
   )
-}
+})

@@ -29,8 +29,10 @@ export const useURLQuery = () => {
 
 export const useURLQueryObservable = (key: string) => {
   const history$ = useHistoryObservable()
-  return useObservable(() => history$.pipe(
-    map(h => new URLSearchParams(h[0].location.search).get(key)),
-    distinctUntilChanged()
-  ))
+  return useObservable(() =>
+    history$.pipe(
+      map(h => new URLSearchParams(h[0].location.search).get(key)),
+      distinctUntilChanged()
+    )
+  )
 }

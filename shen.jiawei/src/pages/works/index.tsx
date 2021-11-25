@@ -15,24 +15,28 @@ import type WorkData from "../../api/data-tables/WorkData"
 import type { PickR } from "../../utils/types"
 import { useQuery } from "../../api/predefined-query"
 import type { ActivityCount } from "../../api/data-tables/variations/work-data-with-activity-count"
+import { withUserID } from "../../storage"
 
-const Card = (w: PickR<WorkData, "img" | "name" | "type" | "tags"> & ActivityCount) => (
-    <Link to="/work">
-      <div className="card-work">
-        <img src={w.img} />
-        <div>
-          <h2>{w.name}</h2>
-          <WorkInfo {...w} />
-        </div>
+const Card = (
+  w: PickR<WorkData, "img" | "name" | "type" | "tags"> & ActivityCount
+) => (
+  <Link to="/work">
+    <div className="card-work">
+      <img src={w.img} />
+      <div>
+        <h2>{w.name}</h2>
+        <WorkInfo {...w} />
       </div>
-    </Link>
-  )
+    </div>
+  </Link>
+)
 
-export default () => {
+export default withUserID(() => {
   const { data } = useQuery("works", {})
   return (
     <section id="page-works">
-      {data?.map(work => <Card key={"work-card-" + work.id} {...work} />) || "loading..."}
+      {data?.map(work => <Card key={"work-card-" + work.id} {...work} />) ||
+        "loading..."}
       <ModalButton>
         <div></div>
       </ModalButton>
@@ -47,4 +51,4 @@ export default () => {
       <div className="bottom-spacer-with-float-button" />
     </section>
   )
-}
+})
