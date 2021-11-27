@@ -13,14 +13,14 @@ import { WorkInfo } from "../work/work-info"
 import FloatButton, { ModalButton } from "../../components/float-button"
 import type WorkData from "../../api/data-tables/WorkData"
 import type { PickR } from "../../utils/types"
-import { useQuery } from "../../api/predefined-query"
+import { createQueryParameter, useQuery } from "../../api/predefined-query"
 import type { ActivityCount } from "../../api/data-tables/variations/work-data-with-activity-count"
 import { withUserID } from "../../storage"
 
 const Card = (
-  w: PickR<WorkData, "img" | "name" | "type" | "tags"> & ActivityCount
+  w: PickR<WorkData, "id" | "img" | "name" | "type" | "tags"> & ActivityCount
 ) => (
-  <Link to="/work">
+  <Link to={"/work/" + w.id}>
     <div className="card-work">
       <img src={w.img} />
       <div>
@@ -32,7 +32,7 @@ const Card = (
 )
 
 export default withUserID(() => {
-  const { data } = useQuery("works", {})
+  const { data } = useQuery("works", createQueryParameter("works", [{}]))
   return (
     <section id="page-works">
       {data?.map(work => <Card key={"work-card-" + work.id} {...work} />) ||

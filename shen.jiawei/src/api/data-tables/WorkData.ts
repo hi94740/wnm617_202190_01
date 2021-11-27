@@ -1,4 +1,4 @@
-import type { KVPair, Override } from "../../utils/types"
+import type { Override, TupleToUnion } from "../../utils/types"
 import type { UserID, WorkID } from "../ids"
 import { DataTableConverter } from "./DataTableConverter"
 
@@ -12,14 +12,7 @@ export interface RawWorkData {
   date_create?: number
 }
 
-export type WorkType = "single" | "series"
-export type WorkTag =
-  | "Anime"
-  | "Drama"
-  | "Love"
-  | "Sci-Fi"
-  | "Thriller"
-  | "Action"
+export const WorkTypes = ["single", "series"] as const
 export const WorkTags = [
   "Anime",
   "Drama",
@@ -28,6 +21,8 @@ export const WorkTags = [
   "Thriller",
   "Action"
 ] as const
+export type WorkType = TupleToUnion<typeof WorkTypes>
+export type WorkTag = TupleToUnion<typeof WorkTags>
 
 type ParsedWorkData = Override<
   RawWorkData,
@@ -50,7 +45,6 @@ class WorkData
   type?: WorkType
   tags?: Set<WorkTag>
   img?: string
-  date_create?: Date
   constructor(rawData: RawWorkData) {
     super(rawData)
     this.id = rawData.id as WorkID
@@ -59,10 +53,11 @@ class WorkData
     this.type = rawData.type as WorkType
     this.tags = new Set(rawData.tags?.split(",") as WorkTag[])
     this.img = rawData.img
-    this.date_create = new Date(rawData.date_create)
   }
   toRawData() {
-    return {} as RawWorkData
+    return {
+      id: this.id
+    } as RawWorkData
   }
 }
 

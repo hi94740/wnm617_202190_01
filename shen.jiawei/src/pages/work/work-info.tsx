@@ -18,7 +18,7 @@ const bottomIconSize = "1.3em"
 export const WorkTypeIcon = ({
   type,
   ...props
-}: { type: WorkData["type"] } & Partial<IconProps>) => (
+}: { type: WorkData["type"] | undefined } & Partial<IconProps>) => (
   <Icon
     path={type === "series" ? mdiFilmstripBoxMultiple : mdiFilmstripBox}
     size={bottomIconSize}
@@ -26,16 +26,18 @@ export const WorkTypeIcon = ({
   />
 )
 
-export const WorkInfo = (w: PickR<WorkData, "type"> & ActivityCount) => {
+export const WorkInfo = (
+  w: (PickR<WorkData, "type"> & ActivityCount) | null
+) => {
   return (
     <div className="work-info">
       <div className="category">
-        <WorkTypeIcon type={w.type} />
-        <div>{capitalize(w.type)}</div>
+        <WorkTypeIcon type={w?.type} />
+        <div>{capitalize(w?.type || "")}</div>
       </div>
       <div className="activity-count">
         <Icon path={mdiMapMarkerMultiple} size={bottomIconSize} />
-        <div>{w.activity_count}</div>
+        <div>{w?.activity_count || ""}</div>
       </div>
     </div>
   )

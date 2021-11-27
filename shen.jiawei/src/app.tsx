@@ -38,13 +38,13 @@ export default () => {
           <Route exact path="/">
             <LoginPage />
           </Route>
-          <Route path={["/map", "/activity"]}>
+          <Route path="/map">
             <MapPage />
           </Route>
           <Route path="/works">
             <WorksPage />
           </Route>
-          <Route path="/work">
+          <Route path="/work/:work_id">
             <WorkPage />
           </Route>
           <Route path="/user">

@@ -4,10 +4,19 @@ export type KVPair<T> = keyof T extends infer P
     ? [P, T[P]]
     : never
   : never
-export type KVPairWithTypeAssertion<T, A> = keyof T extends infer P
-  ? P extends keyof T
-    ? T[P] extends A
-      ? [P, T[P]]
+export type KVPairWithTypeAssertion<
+  T1,
+  A,
+  T2 = T1,
+  Prefix extends string = ""
+> = keyof T1 extends infer P
+  ? P extends keyof T1
+    ? T1[P] extends A
+      ? P extends keyof T2
+        ? P extends string
+          ? [`${Prefix}${P}`, T2[P]]
+          : never
+        : never
       : never
     : never
   : never
@@ -64,3 +73,11 @@ export type Override<
   [P in keyof T]: P extends keyof O ? O[P] : T[P]
 }
 export type PickR<T, K extends keyof T> = Required<Pick<T, K>>
+export type TupleToUnion<T> = InterfaceToUnion<{
+  [I in keyof T as I extends number ? I : never]: T[I]
+}>
+export type Merge<A, B> = {
+  [P in keyof A | keyof B]:
+    | (P extends keyof A ? A[P] : never)
+    | (P extends keyof B ? B[P] : never)
+}

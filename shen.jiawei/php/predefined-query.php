@@ -2,13 +2,62 @@
 include_once "./auth.php";
 
 function toColName($input) {
-  global $db;
-  return str_replace("'", "`", $db->quote($input));
+  $input = explode(".", $input);
+  $input = array_map(function($c) {
+    global $db;
+    return str_replace("'", "`", $db->quote($c));
+  }, $input);
+  return implode(".", $input);
 }
 function aliasColNames($tableAlias, $colNames) {
   return implode(", ", array_map(function($colName) use($tableAlias) {
     return "$tableAlias.`$colName` `$tableAlias.$colName`";
   }, $colNames));
+}
+function where($p, $wrap = true, $connector = "AND") {
+  $where = ['', []];
+  if (isset($p->where)) {
+    $queryTemplate = [];
+    $queryOptions = [];
+    array_walk($p->where, function($o) use(&$queryTemplate, &$queryOptions) {
+      if (is_array($o)) {
+        if (is_array($o[1])) {
+          switch($o[0]) {
+            case "=":
+              $values = $o[1];
+              if ($values[0] == "password") {
+                $queryTemplate[] = toColName($values[0]).$o[0].'md5(?)';
+              }
+              else {
+                $queryTemplate[] = toColName($values[0]).$o[0].'?';
+              }
+              $queryOptions[] = $values[1];
+              break;
+          }
+        } else {
+          $values = $o;
+          if ($values[0] == "password") {
+            $queryTemplate[] = toColName($values[0]).'=md5(?)';
+          }
+          else {
+            $queryTemplate[] = toColName($values[0]).'=?';
+          }
+          $queryOptions[] = $values[1];
+        }
+      } else {
+        switch($o) {
+          case "AND":
+          case "(":
+          case ")":
+            $queryTemplate[] = $o;
+            break;
+        }
+      }
+    });
+    $where = [implode(" ", $queryTemplate), $queryOptions];
+    if ($wrap) $where[0] = " $connector ($where[0])";
+  }
+  return $where;
 }
 
 header("Content-Type: application/json");
@@ -23,13 +72,14 @@ switch($input->a) {
     $t = 'SELECT `id` FROM `users` WHERE `username`=? AND `password`=md5(?)';
     break;
   case "works":
-    $t = 'SELECT w.`id`, w.`name`, w.`tags`, w.`img`, w.`type`, a.`work_id`, COUNT(*) activity_count
+    $where = where($input->p);
+    $t = "SELECT w.`id`, w.`name`, w.`tags`, w.`img`, w.`type`, COUNT(*) activity_count
           FROM `works` w
           JOIN `activities` a
           ON w.`id` = a.`work_id` 
-          WHERE `user_id` = ?
-          GROUP BY `work_id`';
-    $p = [$input->u];
+          WHERE `user_id` = ?$where[0]
+          GROUP BY `work_id`";
+    $p = [$input->u, ...$where[1]];
     break;
   case "one_most_recent_activity_of_each_work":
     $t = 'SELECT c.`id`,c.`lat`,c.`lng`
@@ -58,6 +108,17 @@ switch($input->a) {
           WHERE a.`id` = ?';
           $p = [$input->u, $input->p];
           $multiTable = true;
+    break;
+  case "activityList":
+    $where = where(isset($input->p[1]) ? $input->p[1] : []);
+    $t = 'SELECT a.`id`, a.`title`, UNIX_TIMESTAMP(a.`date_create`) `date_create`
+          FROM `activities` a
+          JOIN `works` w
+          ON w.`user_id` = ?
+          AND a.`work_id` = w.`id`
+          WHERE a.`work_id` = ?'.$where[0].'
+          ORDER BY a.`date_create` DESC';
+    $p = [$input->u, $input->p[0], ...$where[1]];
     break;
 }
 

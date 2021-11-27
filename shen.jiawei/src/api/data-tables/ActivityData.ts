@@ -1,12 +1,11 @@
-import type { KVPair, Nominal, Override } from "../../utils/types"
+import type { Nominal, Override } from "../../utils/types"
 import type { ActivityID, WorkID } from "../ids"
 import { DataTableConverter } from "./DataTableConverter"
-
 export interface RawActivityData {
   id?: number
   work_id?: number
-  lat?: number
-  lng?: number
+  lat?: string
+  lng?: string
   title?: string
   description?: string
   images?: string
@@ -20,8 +19,9 @@ type ParsedActivityData = Override<
   {
     id: ActivityID
     work_id: WorkID
-    // lat: Latitude
-    // lng: Longtitude
+    lat?: number
+    lng?: number
+    images?: string[]
     date_create: Date
   }
 >
@@ -36,18 +36,16 @@ class ActivityData
   lng?: number
   title?: string
   description?: string
-  images?: string
-  date_create?: Date
+  images?: string[]
   constructor(rawData: RawActivityData) {
     super(rawData)
     this.id = rawData.id as ActivityID
     this.work_id = rawData.work_id as WorkID
-    this.lat = rawData.lat
-    this.lng = rawData.lng
+    this.lat = parseFloat(rawData.lat)
+    this.lng = parseFloat(rawData.lng)
     this.title = rawData.title
     this.description = rawData.description
-    this.images = rawData.images
-    this.date_create = new Date(rawData.date_create)
+    if (rawData.images) this.images = JSON.parse(rawData.images)
   }
   toRawData() {
     return {} as RawActivityData
