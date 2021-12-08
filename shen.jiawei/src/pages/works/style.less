@@ -1,6 +1,11 @@
 @import "../../mixins/styles/index.less";
 
 #page-works {
+  & > div > .preloader-wrapper {
+    // --size: 64px;
+    --color: #colors() [primary];
+  }
+
   a {
     display: block;
     text-decoration: none;
@@ -29,7 +34,7 @@
 
       & > h2 {
         margin: 0;
-        flex-grow: 1;
+        margin-bottom: 0.5rem;
         line-height: 1.3em;
         max-height: calc(3 * $line-height);
         overflow: hidden;

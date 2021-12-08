@@ -3,21 +3,27 @@ import { useMemo } from "react"
 import { useHistory } from "react-router"
 import { distinctUntilChanged, map } from "rxjs"
 import { useHistoryObservable } from "./history"
+import { TupleToUnion } from "./types"
 
-const editingMethods: Array<keyof URLSearchParams> = ["append", "delete", "set"]
+const editingMethods = ["append", "delete", "set"] as const
+type EditingMethods = TupleToUnion<typeof editingMethods>
 
 export const useURLQuery = () => {
   const { push, replace, location } = useHistory()
   const query = useMemo(
     () =>
       new Proxy(new URLSearchParams(location.search), {
-        get(s, p: keyof URLSearchParams) {
-          if (editingMethods.includes(p)) {
-            setTimeout(() => {
+        get<P extends keyof URLSearchParams>(s: URLSearchParams, p: P) {
+          if (editingMethods.includes(p as EditingMethods)) {
+            const m: URLSearchParams[EditingMethods] = (
+              ...args: [string, string?]
+            ) => {
+              s[p].bind(s)(...args)
               const update = p === "append" ? push : replace
-              location.search = "?" + query.toString()
+              location.search = "?" + s.toString()
               update(location)
-            })
+            }
+            return m as URLSearchParams[P]
           }
           return s[p].bind(s)
         }

@@ -10,7 +10,7 @@ import { useGoBackHandler } from "../../bottom-bar"
 import { useLog } from "../../utils/dev"
 import { pageScrollObservable } from "../../utils/scroll"
 import { useURLQuery, useURLQueryObservable } from "../../utils/url-query"
-import { WorkTypeIcon } from "../work/work-info"
+import { WorkTypeIcon, WorkTypeTag } from "../work/components/work-info"
 import "./style.less"
 
 export default () => {
@@ -57,10 +57,11 @@ export default () => {
           className="work-info"
           style={{ marginLeft: "var(--toolbar-margin)" }}
         >
-          <div className="category">
-            <WorkTypeIcon type={a?.work?.type || "single"} />
-            <div>{a?.work?.name || "Probably good work..."}</div>
-          </div>
+          <WorkTypeTag
+            type={a?.work?.type || "single"}
+            name={a?.work?.name || "Probably good work..."}
+            showName
+          />
         </div>
       </header>
       <div>

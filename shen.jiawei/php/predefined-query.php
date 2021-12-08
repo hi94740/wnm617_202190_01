@@ -14,6 +14,12 @@ function aliasColNames($tableAlias, $colNames) {
     return "$tableAlias.`$colName` `$tableAlias.$colName`";
   }, $colNames));
 }
+function makeInsert($table, $cols) {
+  return "INSERT INTO `$table`
+  (".implode(", ", $cols).", date_create)
+  VALUES
+  (".implode(", ", array_map(function($c) { return ":$c"; }, $cols)).", NOW())";
+}
 function where($p, $wrap = true, $connector = "AND") {
   $where = ['', []];
   if (isset($p->where)) {
@@ -65,20 +71,23 @@ $db = createDB();
 $input = json_decode(file_get_contents('php://input'));
 
 if (isset($input->p)) $p = $input->p;
-else if (isset($input->u)) $p = [$input->u];
 $multiTable = false;
+$inserted = false;
 switch($input->a) {
   case "login":
     $t = 'SELECT `id` FROM `users` WHERE `username`=? AND `password`=md5(?)';
     break;
   case "works":
     $where = where($input->p);
-    $t = "SELECT w.`id`, w.`name`, w.`tags`, w.`img`, w.`type`, COUNT(*) activity_count
+    $t = "SELECT w.`id`, w.`name`, w.`tags`, w.`img`, w.`type`, activity_count
+          FROM `works` w
+          LEFT JOIN (SELECT w.`id`, COUNT(*) activity_count
           FROM `works` w
           JOIN `activities` a
           ON w.`id` = a.`work_id` 
-          WHERE `user_id` = ?$where[0]
-          GROUP BY `work_id`";
+          GROUP BY `work_id`) ac
+          ON ac.`id` = w.`id`
+          WHERE `user_id` = ?$where[0]";
     $p = [$input->u, ...$where[1]];
     break;
   case "one_most_recent_activity_of_each_work":
@@ -106,10 +115,10 @@ switch($input->a) {
           ON a.`work_id` = w.`id`
           AND w.`user_id` = ?
           WHERE a.`id` = ?';
-          $p = [$input->u, $input->p];
-          $multiTable = true;
+    $p = [$input->u, $input->p];
+    $multiTable = true;
     break;
-  case "activityList":
+  case "activity_list":
     $where = where(isset($input->p[1]) ? $input->p[1] : []);
     $t = 'SELECT a.`id`, a.`title`, UNIX_TIMESTAMP(a.`date_create`) `date_create`
           FROM `activities` a
@@ -120,10 +129,21 @@ switch($input->a) {
           ORDER BY a.`date_create` DESC';
     $p = [$input->u, $input->p[0], ...$where[1]];
     break;
+  case "add_work":
+    $query = $db->prepare('SELECT `user_id` FROM `works` WHERE `user_id` = ?');
+    $query->execute([$input->u]);
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    if (count($result) == 0) die("user not authorized");
+    $t = makeInsert("works", ["name", "type", "tags", "user_id"]);
+    $p->user_id = $input->u;
+    $p = (array) $p;
+    $inserted = true;
+    break;
 }
 
 $query = $db->prepare($t);
 $query->execute($p);
+if ($inserted) die($db->lastInsertId());
 $result = $query->fetchAll(PDO::FETCH_ASSOC);
 if ($multiTable) $result = array_map(function($r) {
   $e = [];

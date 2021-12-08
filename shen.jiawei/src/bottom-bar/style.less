@@ -69,8 +69,7 @@ footer {
           position: absolute;
 
           &:nth-child(2) {
-            @c: #colors[secondary]; //Vscode prompts me error when putting this directly in the darken function. But it'll build.
-            color: darken(@c, 25%);
+            color: darken(#colors() [secondary], 25%);
             background-color: white;
             transform: scale(0);
           }
@@ -116,8 +115,7 @@ footer {
     & > button {
       border: none;
 
-      @c: #colors[secondary]; //Vscode prompts me error when putting this directly in the darken function. But it'll build.
-      color: darken(@c, 25%);
+      color: darken(#colors() [secondary], 25%);
       background-color: white;
 
       position: absolute;
@@ -128,37 +126,50 @@ footer {
     }
   }
 
-  // & > div {
-  //   position: absolute;
-  //   width: 100%;
-  //   height: 100%;
-
   & > div {
     position: absolute;
-    right: 0;
-    width: calc(100% - var(--toolbar-height));
+    width: 100%;
     height: 100%;
-    .flex-center();
 
-    --height: calc(100% - 2 * var(--toolbar-margin));
+    & > div {
+      position: absolute;
+      right: 0;
+      width: calc(100% - var(--toolbar-height));
+      height: 100%;
+      .flex-center();
 
-    // & > .
+      --height: calc(100% - 2 * var(--toolbar-margin));
 
-    & > input {
-      display: block;
-      margin: 15px;
-      margin-left: 7.5px;
-      height: var(--height);
-      flex-grow: 1;
+      transition: 500ms;
+      opacity: 0;
 
-      border: none;
-      appearance: none;
-      border-radius: 50vw;
-      background-color: #eee;
-      padding-left: 10px;
+      &.show {
+        opacity: 1;
+      }
+
+      & > * {
+        margin-left: 7.5px;
+      }
+
+      & > *:last-child {
+        margin-right: 7.5px;
+      }
+
+      & > input {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        height: var(--height);
+        flex-grow: 1;
+
+        border: none;
+        appearance: none;
+        border-radius: 50vw;
+        background-color: #eee;
+        padding-left: 10px;
+      }
     }
   }
-  // }
 }
 
 .modal-container {

@@ -24,6 +24,7 @@
   "dependencies": {
     "@mdi/js": "^6.2.95",
     "@mdi/react": "^1.5.0",
+    "@risingstack/react-easy-state": "^6.3.0",
     "lodash-es": "^4.17.21",
     "observable-hooks": "^4.0.5",
     "react": "^17.0.2",

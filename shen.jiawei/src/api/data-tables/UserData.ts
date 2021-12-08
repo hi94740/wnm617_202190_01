@@ -28,7 +28,7 @@ class UserData
   username?: string
   password?: string
   img?: string
-  constructor(rawData: RawUserData) {
+  constructor(rawData: RawUserData = {} as RawUserData) {
     super(rawData)
     this.id = rawData.id as UserID
     this.name = rawData.name

@@ -10,7 +10,7 @@
     height: 100%;
     transform: translateY(calc(0.4 * var(--scroll)));
     transition: height 500ms;
-    color: #colors[primary];
+    color: #colors() [primary];
 
     & > img {
       width: 100vw;
@@ -36,5 +36,13 @@
         }
       }
     }
+  }
+
+  & > .progress {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 10px;
+    border-radius: 0;
   }
 }

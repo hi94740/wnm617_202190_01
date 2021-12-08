@@ -1,0 +1,38 @@
+@import "../../../../mixins/styles/index.less";
+
+.work-info {
+  width: 100%;
+  font-size: 1em;
+  display: flex;
+  flex-shrink: 0;
+
+  & > div {
+    display: flex;
+    svg {
+      transform: translateY(0.15em);
+    }
+  }
+
+  .work-type-tag {
+    flex-grow: 1;
+    font-weight: 600;
+  }
+
+  .activity-count {
+    svg {
+      color: darken(#colors() [secondary], 25%);
+    }
+  }
+}
+
+.work-type-tag {
+  color: var(--color, #colors() [secondary]);
+  display: flex;
+  gap: 0.3em;
+  svg {
+    flex-shrink: 0;
+  }
+  div {
+    .line-clamp(1);
+  }
+}

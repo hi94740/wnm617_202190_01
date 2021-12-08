@@ -13,7 +13,7 @@ export interface RawWorkData {
 }
 
 export const WorkTypes = ["single", "series"] as const
-export const WorkTags = [
+export const WorkTagOptions = [
   "Anime",
   "Drama",
   "Love",
@@ -22,7 +22,7 @@ export const WorkTags = [
   "Action"
 ] as const
 export type WorkType = TupleToUnion<typeof WorkTypes>
-export type WorkTag = TupleToUnion<typeof WorkTags>
+export type WorkTag = TupleToUnion<typeof WorkTagOptions>
 
 type ParsedWorkData = Override<
   RawWorkData,
@@ -45,7 +45,7 @@ class WorkData
   type?: WorkType
   tags?: Set<WorkTag>
   img?: string
-  constructor(rawData: RawWorkData) {
+  constructor(rawData: RawWorkData = {} as RawWorkData) {
     super(rawData)
     this.id = rawData.id as WorkID
     this.user_id = rawData.user_id as UserID
@@ -56,7 +56,10 @@ class WorkData
   }
   toRawData() {
     return {
-      id: this.id
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      tags: this.tags ? [...this.tags].join(",") : undefined
     } as RawWorkData
   }
 }

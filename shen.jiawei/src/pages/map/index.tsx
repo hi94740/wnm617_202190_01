@@ -49,7 +49,10 @@ export default withUserID(() => {
   )
   usePreventPageHorizontalScrolling()
 
-  const { data } = useQuery("one_most_recent_activity_of_each_work", undefined)
+  const { data, loading } = useQuery(
+    "one_most_recent_activity_of_each_work",
+    undefined
+  )
 
   return (
     <section id="page-map">
@@ -110,6 +113,11 @@ export default withUserID(() => {
       <Toolbar>
         <input type="text" placeholder="Search & Filters" />
       </Toolbar>
+      <CSSTransition in={loading} classNames="fade" timeout={300}>
+        <div className="progress">
+          <div className="indeterminate" />
+        </div>
+      </CSSTransition>
     </section>
   )
 })

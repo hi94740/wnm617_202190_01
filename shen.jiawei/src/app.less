@@ -20,21 +20,31 @@ section {
   height: calc(2 * var(--toolbar-height) + 3 * var(--toolbar-margin));
 }
 
+.flex-center {
+  .flex-center();
+}
+
+.center-container {
+  .center-container();
+}
+
 .fade- {
-  @transition: opacity 300ms;
+  @transition: opacity 300ms !important;
 
   &enter {
-    opacity: 0;
-    &-active {
-      opacity: 1;
+    opacity: 0 !important;
+    &-active,
+    &-done {
+      opacity: 1 !important;
       transition: @transition;
     }
   }
 
   &exit {
-    opacity: 1;
-    &-active {
-      opacity: 0;
+    opacity: 1 !important;
+    &-active,
+    &-done {
+      opacity: 0 !important;
       transition: @transition;
     }
   }
@@ -45,26 +55,54 @@ section {
 }
 .slide-up- {
   @transition: transform 500ms;
-  .not-active() {
+  .not-show() {
     transform: translateY(var(--slide-up-height));
   }
-  .active() {
+  .show() {
     transform: none;
   }
 
   &enter {
-    .not-active();
+    .not-show();
     &-active {
-      .active();
+      .show();
       transition: @transition;
     }
   }
 
   &exit {
-    .active();
+    .show();
     &-active {
-      .not-active();
+      .not-show();
       transition: @transition;
     }
   }
+}
+
+.slide-X(@coe) {
+  @transition: transform 500ms;
+
+  &enter {
+    transform: translateX(100vw * @coe);
+    &-active,
+    &-done {
+      transform: none;
+      transition: @transition;
+    }
+  }
+
+  &exit {
+    transform: none;
+    &-active,
+    &-done {
+      transform: translateX(-100vw * @coe);
+      transition: @transition;
+    }
+  }
+}
+.slide-left- {
+  .slide-X(1);
+}
+.slide-right- {
+  .slide-X(-1);
 }

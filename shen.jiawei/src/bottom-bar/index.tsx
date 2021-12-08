@@ -16,11 +16,18 @@ import React, {
   useState
 } from "react"
 import { createPortal } from "react-dom"
-import { NavLink, useHistory, Switch, Route } from "react-router-dom"
+import {
+  NavLink,
+  useHistory,
+  Switch,
+  Route,
+  useLocation
+} from "react-router-dom"
 import { useObservableCallback, useSubscription } from "observable-hooks"
 import { debounceTime, tap } from "rxjs"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import { useURLQuery } from "../utils/url-query"
+import { classNames } from "../utils/classNames"
 
 export const ToolbarContext = createContext({
   toolbarElement: null as HTMLDivElement,
@@ -97,8 +104,9 @@ export default () => {
       <footer>
         <div ref={toolbarRef} />
         <nav
-          className={[navActive ? "active" : "", backable ? "back" : ""].join(
-            " "
+          className={classNames(
+            navActive ? "active" : "",
+            backable ? "back" : ""
           )}
           onClick={backable ? undefined : handleTapNav}
         >
@@ -138,7 +146,20 @@ export default () => {
 
 export const Toolbar = (props: { children: ReactNode }) => {
   const { toolbarElement } = useContext(ToolbarContext)
-  return toolbarElement ? createPortal(props.children, toolbarElement) : null
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    setTimeout(() => setShow(true))
+  }, [])
+  const classShow =
+    useHistory().location.pathname === useLocation().pathname && show
+      ? "show"
+      : ""
+  return toolbarElement
+    ? createPortal(
+        <div className={classShow}>{props.children}</div>,
+        toolbarElement
+      )
+    : null
 }
 
 export const ToolbarModal = (props: { children: ReactNode; show: boolean }) => {

@@ -1,0 +1,73 @@
+@import "../../../mixins/styles/index.less";
+
+#page-works .float-button {
+  --body-height: calc((var(--width) - 3 * var(--toolbar-margin)) / 3);
+
+  &.modal {
+    --width: var(--toolbar-width);
+    --height: calc(
+      var(--body-height) + var(--toolbar-height) + 1.75em +
+        var(--toolbar-margin) * 4
+    );
+  }
+
+  & > div {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--toolbar-margin);
+
+    h3 {
+      margin: 0;
+      .work-type-tag {
+        transform: translateY(0.3em);
+        margin: 0 0.3em;
+        display: inline-flex;
+        div {
+          margin-top: -0.1em;
+        }
+      }
+    }
+
+    & > h3,
+    & > div:first-child {
+      margin-top: var(--toolbar-margin);
+      margin-left: var(--toolbar-margin);
+      margin-right: calc(var(--toolbar-height));
+    }
+
+    & > div,
+    & > form {
+      height: var(--body-height);
+      margin: 0 var(--toolbar-margin);
+    }
+
+    & > form {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .button-bar {
+      height: calc(var(--toolbar-height) - var(--toolbar-margin));
+      border-top: 1px solid lightgray;
+      padding: var(--toolbar-margin) 0;
+      .grid(2);
+      gap: var(--toolbar-margin);
+
+      button {
+        grid-column: 1 span;
+      }
+    }
+  }
+}
+
+.work-form-generic-heading {
+  display: flex;
+  & > .work-type-tag {
+    transform: none !important;
+  }
+}

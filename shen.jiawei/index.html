@@ -9,6 +9,7 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="css/loader.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&family=Titillium+Web:wght@400;600;700&display=swap"
       rel="stylesheet"
@@ -17,7 +18,31 @@
     <title>Seichi Junrei</title>
   </head>
   <body>
-    <div id="app"><h1>Henshin in progress...</h1></div>
+    <div id="app">
+      <div
+        style="
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <div class="preloader-wrapper big active">
+          <div class="spinner-layer spinner-primary only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYBcIGwEwyp1WNpNOMNrqdmGN4Rz0OMwo"></script>
     <script src="dist/bundle.js"></script>
   </body>

@@ -4,7 +4,7 @@ export abstract class DataTableConverter<
   }
 > {
   date_create?: Date
-  constructor(rawData: R) {
+  constructor(rawData: R = {} as R) {
     if (rawData.date_create)
       this.date_create = new Date(rawData.date_create * 1000)
   }

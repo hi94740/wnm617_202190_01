@@ -3,6 +3,7 @@ import "./style.less"
 import React, { MouseEventHandler, ReactNode, useState } from "react"
 import Icon from "@mdi/react"
 import { mdiPlus } from "@mdi/js"
+import { classNames } from "../../utils/classNames"
 
 const FloatButton = () => {
   return (
@@ -17,15 +18,14 @@ export default FloatButton
 export const ModalButton = (props: {
   // modal: boolean
   // onClick: MouseEventHandler
+  show: boolean
+  setShow: (show: boolean) => void
   children: ReactNode
-}) => {
-  const [showModal, setShowModal] = useState(false)
-  return (
-    <div className={["float-button", showModal ? "modal" : ""].join(" ")}>
-      {props.children}
-      <button onClick={() => setShowModal(!showModal)}>
-        <Icon path={mdiPlus} />
-      </button>
-    </div>
-  )
-}
+}) => (
+  <div className={classNames("float-button", props.show ? "modal" : "")}>
+    {props.children}
+    <button onClick={() => props.setShow(!props.show)}>
+      <Icon path={mdiPlus} />
+    </button>
+  </div>
+)

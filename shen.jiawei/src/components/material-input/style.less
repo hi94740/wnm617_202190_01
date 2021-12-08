@@ -1,0 +1,93 @@
+@import "../../mixins/styles/colors.less";
+
+.material-input {
+  --color-main: #colors() [primary];
+  // --color-main-dark: #038c5a;
+  // --color-main-light: #82ffc4;
+  // --color-sub: #760dc3;
+  // --color-sub-dark: #570a90;
+  // --color-sub-light: #964bcd;
+  // --color-neutral-extra-dark: #111;
+  // --color-neutral-dark: #222;
+  // --color-neutral-medium: #333;
+  // --color-neutral-light: #999;
+  // --color-neutral-extra-light: white;
+  --color-neutral-contrast-1: rgba(0, 0, 0, 0.1);
+  --color-neutral-contrast-2: rgba(0, 0, 0, 0.2);
+  --color-neutral-contrast-3: rgba(0, 0, 0, 0.3);
+  --color-neutral-contrast-4: rgba(0, 0, 0, 0.4);
+  --color-neutral-contrast-5: rgba(0, 0, 0, 0.5);
+  --color-neutral-contrast-6: rgba(0, 0, 0, 0.6);
+  --color-neutral-contrast-7: rgba(0, 0, 0, 0.7);
+  --color-neutral-contrast-8: rgba(0, 0, 0, 0.8);
+  --color-neutral-contrast-9: rgba(0, 0, 0, 0.9);
+  --color-neutral-contrast-10: rgba(0, 0, 0, 1);
+
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+
+  & > label {
+    color: var(--color-neutral-contrast-6);
+    font-size: 0.8rem;
+    transition: color 0.2s, transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  }
+
+  & > input {
+    margin: 0.5em 0;
+    padding: 0.4em 0;
+    margin-top: 0;
+    padding-top: 0;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    -webkit-appearance: none;
+    width: 100%;
+    outline: none;
+    font: inherit;
+    border-bottom: 2px solid var(--color-neutral-contrast-2);
+    transition: border 0.2s;
+
+    &::placeholder {
+      color: var(--color-neutral-contrast-2);
+    }
+
+    &:hover {
+      border-bottom: 2px solid var(--color-neutral-contrast-6);
+    }
+
+    &:focus {
+      border-bottom: 2px solid var(--color-main);
+
+      & + label {
+        color: var(--color-main);
+      }
+    }
+
+    &[placeholder=" "] {
+      @label-margin-top: 0.2rem;
+      @label-margin-bottom: 0.2rem;
+      @label-height: 1rem;
+
+      & + label {
+        display: block;
+        pointer-events: none;
+        margin-top: @label-margin-top;
+        margin-bottom: @label-margin-bottom;
+        height: @label-height;
+      }
+
+      &:placeholder-shown + label {
+        transform-origin: left;
+        transform: translateY(
+            @label-height + @label-margin-top + @label-margin-bottom
+          )
+          scale(1.25);
+      }
+
+      &:focus + label {
+        transform: none;
+      }
+    }
+  }
+}

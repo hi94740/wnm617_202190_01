@@ -96,10 +96,11 @@ interface PredefinedQueries {
       ActivityWithWorkData<"title" | "description" | "images", "name" | "type">
     >
   ]
-  activityList: [
+  activity_list: [
     [WorkID, SQLSortAndFiltersConverter<RawActivityData, ActivityData>?],
     Array<PickR<ActivityData, "id" | "title" | "date_create">>
   ]
+  add_work: [PickR<RawWorkData, "type" | "name" | "tags">, WorkID]
 }
 
 type QueryParams<Action extends keyof PredefinedQueries> =
@@ -109,24 +110,25 @@ type QueryData<Action extends keyof PredefinedQueries> =
 export async function query<Action extends keyof PredefinedQueries>(
   action: Action,
   parameters: QueryParams<Action>,
-  uid?: UserID
+  uid?: UserID,
+  retry = true
 ): Promise<QueryData<Action>> {
+  const req = [
+    "php/predefined-query.php",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        a: action,
+        p: parameters,
+        ...(uid ? { u: uid } : {})
+      })
+    }
+  ] as const
   const res = await (
-    await firstValueFrom(
-      timer(0, 3000).pipe(
-        mergeMap(() =>
-          fromFetch("php/predefined-query.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              a: action,
-              p: parameters,
-              ...(uid ? { u: uid } : {})
-            })
-          })
-        )
-      )
-    )
+    await (retry
+      ? firstValueFrom(timer(0, 3000).pipe(mergeMap(() => fromFetch(...req))))
+      : fetch(...req))
   ).json()
   switch (action) {
     case "login":
@@ -135,15 +137,17 @@ export async function query<Action extends keyof PredefinedQueries>(
       return res.map(
         (r: RawWorkData & ActivityCount) => new WorkDataWithActivityCount(r)
       )
-    case "activityList":
+    case "activity_list":
     case "one_most_recent_activity_of_each_work":
       return res.map((r: RawActivityData) => new ActivityData(r))
     case "activity":
       return res.map(
         (r: RawActivityWithWorkData) => new ActivityWithWorkData(r)
       )
+    case "add_work":
+      return res
     default:
-      throw new Error("no parsing specified for query action: " + action)
+      throw new Error("No parsing specified for query action: " + action)
   }
 }
 
@@ -223,12 +227,12 @@ export class SQLSortAndFiltersConverter<
 {
   where?: SQLWhere<T1, T2>
   constructor(
-    converter: new (rawData: T1) => T2,
+    converter: new (rawData?: T1) => T2,
     data: SQLSortAndFilters<T1, T2>,
     prefix: Prefix
   ) {
     const convert = (p: KVPairWithTypeAssertion<T1, T2>) => {
-      const c = new converter({} as T1)
+      const c = new converter()
       c[p[0]] = p[1]
       return [prefix + p[0], c.toRawData()[p[0]]]
     }

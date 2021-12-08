@@ -37,7 +37,7 @@ class ActivityData
   title?: string
   description?: string
   images?: string[]
-  constructor(rawData: RawActivityData) {
+  constructor(rawData: RawActivityData = {} as RawActivityData) {
     super(rawData)
     this.id = rawData.id as ActivityID
     this.work_id = rawData.work_id as WorkID

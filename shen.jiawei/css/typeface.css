@@ -14,3 +14,11 @@ h2 {
 body {
   color: #222;
 }
+
+:root {
+  --color-primary: #ff4f95;
+  --color-contrast: #c7ff69;
+  --color-secondary: #d642ff;
+  --color-secondary-contrast: #36ffb3;
+  --color-warning: #ff785c;
+}

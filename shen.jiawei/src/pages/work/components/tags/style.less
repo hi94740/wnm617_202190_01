@@ -1,0 +1,57 @@
+@import "../../../../mixins/styles/colors.less";
+
+.work-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  &.scroll {
+    flex-wrap: nowrap;
+    overflow: scroll;
+  }
+
+  & > div {
+    height: 1rem;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-family: "Roboto Slab", sans-serif;
+    color: white;
+    font-size: 0.8rem;
+    display: flex;
+    align-content: center;
+    flex-shrink: 0;
+    & > span {
+      font: inherit;
+    }
+
+    & > svg {
+      width: 1rem;
+      &:first-child {
+        transform: translateX(-2px);
+      }
+      &:last-child {
+        transform: translateX(2px);
+      }
+    }
+
+    &.Anime {
+      background: #colors() [primary];
+    }
+    &.Drama {
+      background: #colors() [warning];
+    }
+    &.Love {
+      background: #colors() [secondary];
+    }
+    &.Sci-Fi {
+      background: #colors() [secondary-contrast];
+      color: black;
+    }
+    &.Thriller {
+      background: #colors() [contrast];
+      color: black;
+    }
+    &.Action {
+      background: crimson;
+    }
+  }
+}
