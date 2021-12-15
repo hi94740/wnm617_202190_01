@@ -51,7 +51,9 @@ class WorkData
     this.user_id = rawData.user_id as UserID
     this.name = rawData.name
     this.type = rawData.type as WorkType
-    this.tags = new Set(rawData.tags?.split(",") as WorkTag[])
+    this.tags = rawData.tags
+      ? new Set(rawData.tags.split(",") as WorkTag[])
+      : new Set()
     this.img = rawData.img
   }
   toRawData() {
@@ -59,7 +61,8 @@ class WorkData
       id: this.id,
       name: this.name,
       type: this.type,
-      tags: this.tags ? [...this.tags].join(",") : undefined
+      tags: this.tags ? [...this.tags].join(",") : undefined,
+      img: this.img
     } as RawWorkData
   }
 }

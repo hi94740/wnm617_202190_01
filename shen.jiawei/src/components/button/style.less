@@ -1,4 +1,4 @@
-@import "../../mixins/styles/colors.less";
+@import "../../mixins/styles/index.less";
 
 .button {
   border: none;
@@ -11,30 +11,52 @@
   color: #222;
   padding: 7.5px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  &,
+  & > div {
+    .flex-center();
+    gap: 8px;
+
+    & > svg {
+      width: calc(var(--toolbar-height) / 2);
+    }
+
+    & > div {
+      &:first-child {
+        margin-left: 8px;
+      }
+      &:last-child {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  & > div {
+    & > svg {
+      &:first-child {
+        margin-left: -8px;
+      }
+      &:last-child {
+        margin-right: -8px;
+      }
+    }
+    & > div {
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
 
   .preloader-wrapper {
     --size: calc(var(--toolbar-height) / 2);
     --weight: 4px;
+    --color: white;
   }
 
   &.loading {
     pointer-events: none;
-  }
-
-  & > svg {
-    width: calc(var(--toolbar-height) / 2);
-  }
-
-  & > div {
-    &:first-child {
-      margin-left: 8px;
-    }
-    &:last-child {
-      margin-right: 8px;
-    }
   }
 
   &.round {
@@ -42,7 +64,8 @@
   }
 
   background: none;
-  &:active {
+  &:active,
+  &.active {
     background: rgba(0, 0, 0, 0.1);
   }
   &:disabled {
@@ -64,5 +87,26 @@
     border: #colors() [primary] solid 3px;
     color: #colors() [primary];
     box-sizing: border-box;
+
+    .preloader-wrapper {
+      --color: $color;
+    }
+
+    &.black {
+      color: #333;
+      border-color: #333;
+    }
+  }
+  &.select {
+    color: #333;
+    &.outline {
+      border: rgba(0, 0, 0, 0.2) solid 2px;
+    }
+  }
+  &.push-icon {
+    width: 100%;
+    & > div {
+      flex-grow: 1;
+    }
   }
 }

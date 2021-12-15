@@ -3,6 +3,7 @@ import { FormPageConfig, GenericHeading } from "../.."
 import EditTags from "../../../../work/components/tags/edit-tags"
 
 const WorkTagsFormPage: FormPageConfig = {
+  skipable: true,
   validate: ({ tags }) => tags.size > 0,
   FormPage: ({ formData }) => (
     <>

@@ -1,11 +1,10 @@
 @import "../../mixins/styles/index.less";
 
 #page-works {
-  & > div > .preloader-wrapper {
-    // --size: 64px;
-    --color: #colors() [primary];
+  p {
+    text-align: center;
+    color: #666;
   }
-
   a {
     display: block;
     text-decoration: none;
@@ -16,14 +15,17 @@
     margin-right: $margin-left;
     margin-top: $margin-left;
     width: var(--toolbar-width);
-    height: 179px;
+    height: 180px;
     max-height: 25vh;
-    background-color: white;
-    box-shadow: 0 2px 5px fade(#222, 50%);
+    .card();
     border-radius: 5px;
     overflow: hidden;
     display: flex;
     justify-content: center;
+
+    & > img {
+      .work-img($height, $max-height);
+    }
 
     & > div {
       margin: $margin-left;

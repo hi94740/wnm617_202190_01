@@ -81,3 +81,9 @@ export type Merge<A, B> = {
     | (P extends keyof A ? A[P] : never)
     | (P extends keyof B ? B[P] : never)
 }
+export type MapTo<T, MapToType> = {
+  [P in keyof T]: MapToType
+}
+export type FilterKeyByValueType<T, ValueType> = InterfaceToUnion<{
+  [P in keyof T as T[P] extends ValueType ? P : never]: P
+}>

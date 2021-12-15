@@ -1,15 +1,15 @@
 import WorkData, { RawWorkData } from "../WorkData"
 
-export interface ActivityCount {
+export interface ActivityCountData {
   activity_count: number
 }
 
 export class WorkDataWithActivityCount
   extends WorkData
-  implements ActivityCount
+  implements ActivityCountData
 {
   activity_count: number
-  constructor(rawData: RawWorkData & ActivityCount) {
+  constructor(rawData: RawWorkData & ActivityCountData) {
     super(rawData)
     this.activity_count = rawData.activity_count
   }

@@ -1,7 +1,5 @@
-type ClassNames = string[] | ClassNames[]
-
-export const classNames = (...names: ClassNames) =>
+export const classNames = (...names: any) =>
   names
     .flat(Infinity)
-    .filter(c => c && typeof c === "string")
+    .filter((c: any) => c && typeof c === "string")
     .join(" ")

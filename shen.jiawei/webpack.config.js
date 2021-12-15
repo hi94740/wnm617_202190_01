@@ -53,6 +53,11 @@ module.exports = env => ({
         target: "http://shenjiaweb.com",
         pathRewrite: { "^/php": "/wnm617/shen.jiawei/php" },
         changeOrigin: true
+      },
+      "/img/user": {
+        target: "http://shenjiaweb.com",
+        pathRewrite: { "^/img/user": "/wnm617/shen.jiawei/img/user" },
+        changeOrigin: true
       }
     },
     static: {

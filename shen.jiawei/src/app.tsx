@@ -8,12 +8,14 @@ import LoginPage from "./pages/login"
 import MapPage from "./pages/map"
 import WorksPage from "./pages/works"
 import WorkPage from "./pages/work"
+import EditWorkPage from "./pages/edit-work"
 import UserPage from "./pages/user"
+import EditProfilePage from "./pages/edit-profile"
 import BottomBar from "./bottom-bar"
 
 import { useUserID } from "./storage"
 
-const pageWithoutLogin = ["/"]
+const pageWithoutLogin = ["/", "/register"]
 
 export default () => {
   const history = useHistory()
@@ -35,7 +37,7 @@ export default () => {
         timeout={300}
       >
         <Switch location={location}>
-          <Route exact path="/">
+          <Route exact path={["/", "/register"]}>
             <LoginPage />
           </Route>
           <Route path="/map">
@@ -50,6 +52,12 @@ export default () => {
           <Route path="/user">
             <UserPage />
           </Route>
+          <Route path="/edit-profile">
+            <EditProfilePage />
+          </Route>
+          <Route path="/edit-work/:work_id">
+            <EditWorkPage />
+          </Route>
         </Switch>
       </CSSTransition>
       <CSSTransition
@@ -58,7 +66,7 @@ export default () => {
         timeout={300}
       >
         <Switch location={location}>
-          <Route exact path="/"></Route>
+          <Route exact path={pageWithoutLogin}></Route>
           <Route>
             <BottomBar />
           </Route>

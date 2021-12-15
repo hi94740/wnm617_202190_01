@@ -45,10 +45,15 @@ class ActivityData
     this.lng = parseFloat(rawData.lng)
     this.title = rawData.title
     this.description = rawData.description
-    if (rawData.images) this.images = JSON.parse(rawData.images)
+    if (rawData.images) this.images = JSON.parse("[" + rawData.images + "]")
   }
   toRawData() {
-    return {} as RawActivityData
+    return {
+      id: this.id,
+      work_id: this.work_id,
+      title: this.title,
+      description: this.description
+    } as RawActivityData
   }
 }
 

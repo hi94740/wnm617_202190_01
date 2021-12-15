@@ -41,16 +41,22 @@ footer {
     }
 
     a {
+      &:first-child > * {
+        opacity: 0.7;
+      }
+
       pointer-events: none;
       * {
         pointer-events: none;
       }
 
+      --item-amount: 4;
+
       .flex-center();
       height: 100%;
-      width: calc(100% / 3);
+      width: calc(100% / var(--item-amount));
       position: absolute;
-      left: calc(50% * 2 / 3);
+      left: 24px;
       // transform: translateX(
       //   calc(-100% * 3 / 2 + var(--toolbar-height) * 0.5)
       // );
@@ -100,9 +106,12 @@ footer {
         &:nth-child(3) {
           --x-offset: 2;
         }
+        &:nth-child(4) {
+          --x-offset: 3;
+        }
 
         // transform: translateX(calc(var(--x-offset, 0) * 100%));
-        left: calc(var(--x-offset, 0) * 100% / 3);
+        left: calc(var(--x-offset, 0) * 100% / var(--item-amount));
       }
     }
 
@@ -134,8 +143,8 @@ footer {
     & > div {
       position: absolute;
       right: 0;
-      width: calc(100% - var(--toolbar-height));
-      height: 100%;
+      width: calc(100% - var(--toolbar-height) - 2 * var(--margin));
+      height: calc(100% - 2 * var(--margin));
       .flex-center();
 
       --height: calc(100% - 2 * var(--toolbar-margin));
@@ -147,26 +156,32 @@ footer {
         opacity: 1;
       }
 
-      & > * {
-        margin-left: 7.5px;
-      }
+      // & > * {
+      //   margin-left: 7.5px;
+      // }
 
-      & > *:last-child {
-        margin-right: 7.5px;
-      }
+      // & > *:last-child {
+      //   margin-right: 7.5px;
+      // }
+      gap: calc(var(--toolbar-margin) / 2);
+      --margin: $gap;
+      margin: var(--margin);
 
-      & > input {
-        display: block;
-        margin-top: 15px;
-        margin-bottom: 15px;
-        height: var(--height);
+      & > form {
+        height: 80%;
+        // height: var(--height);
         flex-grow: 1;
 
-        border: none;
-        appearance: none;
-        border-radius: 50vw;
-        background-color: #eee;
-        padding-left: 10px;
+        & > input {
+          display: block;
+          width: 100%;
+          height: 100%;
+          border: none;
+          appearance: none;
+          border-radius: 50vw;
+          background-color: #eee;
+          padding-left: 10px;
+        }
       }
     }
   }
@@ -179,6 +194,7 @@ footer {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    transform: none;
 
     & > div {
       position: absolute;
@@ -190,17 +206,10 @@ footer {
       border-radius: calc(var(--toolbar-height) / 2);
       padding-bottom: $border-radius;
       box-shadow: 0 0 10px fade(#222, 50%);
-
-      transform: translateY(100%);
-      transition: 300ms cubic-bezier(0, 0, 0, 1);
-
-      &.show {
-        transform: none;
-      }
     }
 
     &.slide-up- {
-      @transition: transform 300ms;
+      @transition: transform 500ms cubic-bezier(0, 0, 0, 1);
 
       &enter {
         & > div {
@@ -224,7 +233,15 @@ footer {
           transform: translateY(100%);
           transition: @transition;
         }
+        &-done > div {
+          transform: translateY(100%);
+          transition: @transition;
+        }
       }
+    }
+
+    & .horizontal-scroll-section {
+      border-top: #aaa solid 1px;
     }
   }
 }

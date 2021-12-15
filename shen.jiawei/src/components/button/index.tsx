@@ -9,14 +9,18 @@ const Button = ({
   Type,
   icon,
   iconRight,
-  loading = !true,
+  loading,
+  active,
+  pushIcon,
   children,
   ...buttonProps
 }: {
-  Type?: "primary" | "outline"
+  Type?: "primary" | "outline" | "outline black" | "select" | "select outline"
   icon?: string
   iconRight?: string
   loading?: boolean
+  active?: boolean
+  pushIcon?: boolean
   children?: React.ReactNode
 } & Omit<
   React.DetailedHTMLProps<
@@ -30,7 +34,9 @@ const Button = ({
       "button",
       !children && "round",
       Type,
-      loading && "loading"
+      loading && "loading",
+      active && "active",
+      pushIcon && "push-icon"
     )}
     {...buttonProps}
   >

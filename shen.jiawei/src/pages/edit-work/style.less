@@ -1,0 +1,33 @@
+@import "../../mixins/styles/index.less";
+
+#page-edit-work {
+  .center-container();
+  flex-direction: column-reverse;
+
+  & > .work-img {
+    margin-bottom: -5rem;
+    position: relative;
+    background: white;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .preloader-wrapper {
+      --color: #colors() [primary] !important;
+    }
+  }
+
+  & > .form-edit-work {
+    .card();
+    width: var(--toolbar-width);
+    padding: var(--toolbar-margin);
+    padding-top: calc(5rem + var(--toolbar-margin));
+    box-sizing: border-box;
+
+    .choose-work-type {
+      height: 5rem;
+    }
+  }
+}

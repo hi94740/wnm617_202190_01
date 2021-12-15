@@ -1,0 +1,25 @@
+@import "../../mixins/styles/index.less";
+
+#page-edit-profile {
+  .center-container();
+  flex-direction: column-reverse;
+
+  & > .pfp {
+    .card();
+    margin-bottom: calc(var(--pfp-size) / -2);
+    position: relative;
+    overflow: hidden;
+
+    & > .preloader-wrapper {
+      --color: white !important;
+    }
+  }
+
+  #form-edit-profile {
+    box-sizing: border-box;
+    .card();
+    width: var(--toolbar-width);
+    padding: var(--toolbar-margin);
+    padding-top: calc(var(--pfp-size) / 2);
+  }
+}

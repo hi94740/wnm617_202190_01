@@ -1,7 +1,31 @@
 @import "../../mixins/styles/index.less";
 
+:root {
+  --pfp-size: 38.2vw;
+}
+
 #page-user {
   height: 100vh;
   .flex-center();
   flex-direction: column;
+
+  & > svg,
+  & > img {
+    width: 38.2vw;
+  }
+
+  & > img {
+    border-radius: 50vw;
+  }
+
+  & > h1 {
+    margin-bottom: 0;
+  }
+}
+
+.pfp {
+  width: var(--pfp-size);
+  height: $width;
+  border-radius: 50vw;
+  object-fit: cover;
 }

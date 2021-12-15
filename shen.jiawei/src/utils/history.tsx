@@ -11,6 +11,7 @@ import {
   map,
   Observable
 } from "rxjs"
+import { connectBehaviorSubject } from "./rx"
 
 type HistoryEventProps = Parameters<
   Parameters<ReturnType<typeof useHistory>["listen"]>[0]
@@ -34,8 +35,8 @@ export const HistoryObservableContextProvider = ({
   const [historyListner, historyObservable] = useObservableCallback<
     HistoryEvent[],
     HistoryEvent
-  >(e => {
-    const c = connectable(
+  >(e =>
+    connectBehaviorSubject(
       concat(
         from(
           Array(bufferSize).fill({
@@ -48,14 +49,9 @@ export const HistoryObservableContextProvider = ({
         bufferCount(bufferSize, 1),
         map(b => b.reverse())
       ),
-      {
-        connector: () => new BehaviorSubject([]),
-        resetOnDisconnect: false
-      }
+      []
     )
-    c.connect()
-    return c
-  })
+  )
   useEffect(
     () => listen((location, action) => historyListner({ location, action })),
     []

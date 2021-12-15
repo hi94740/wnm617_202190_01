@@ -17,6 +17,12 @@
   grid-template-columns: repeat(@col, 1fr);
 }
 
+.col1all() {
+  & > * {
+    grid-column: 1 span;
+  }
+}
+
 .line-clamp(@l) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -24,4 +30,17 @@
   -webkit-line-clamp: @l; /* number of lines to show */
   line-clamp: @l;
   -webkit-box-orient: vertical;
+}
+
+.card() {
+  box-shadow: 0 2px 5px fade(#222, 50%);
+  background-color: white;
+}
+
+.work-img(@height, @max-height) {
+  height: @height;
+  max-height: @max-height;
+  width: calc(@height / 510 * 360);
+  max-width: calc(@max-height / 510 * 360);
+  object-fit: cover;
 }

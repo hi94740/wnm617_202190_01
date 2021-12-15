@@ -1,10 +1,6 @@
 import "./style.less"
 
-import React, {
-  useEffect,
-  useReducer,
-  useState
-} from "react"
+import React, { useEffect, useReducer, useState } from "react"
 import WorkData, { RawWorkData } from "../../../api/data-tables/WorkData"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import WorkTypeFormPage from "./form-pages/type"
@@ -24,7 +20,7 @@ type AddWorkFormData = Pick<WorkData, "type" | "name"> &
 
 type AddWorkFormPage = (props: {
   formData: AddWorkFormData
-  submit: () => void
+  submit?: () => void
 }) => React.ReactElement
 
 export interface FormPageConfig {
@@ -106,7 +102,7 @@ export default view(
           uid,
           false
         )
-        push("/work/" + newWorkId)
+        push("/edit-work/" + newWorkId)
       }
     }
 
@@ -133,7 +129,9 @@ export default view(
                 </Button>
               )}
               {skipable && !readyToGoNext ? (
-                <Button Type="outline">Skip</Button>
+                <Button Type="outline" onClick={nextHandler} loading={loading}>
+                  Skip
+                </Button>
               ) : (
                 <Button
                   iconRight={done ? mdiCheck : mdiChevronRight}

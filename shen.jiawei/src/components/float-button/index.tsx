@@ -1,13 +1,18 @@
 import "./style.less"
 
-import React, { MouseEventHandler, ReactNode, useState } from "react"
+import React from "react"
 import Icon from "@mdi/react"
 import { mdiPlus } from "@mdi/js"
 import { classNames } from "../../utils/classNames"
 
-const FloatButton = () => {
+const FloatButton = (
+  props: React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >
+) => {
   return (
-    <button className="float-button">
+    <button {...props} className="float-button">
       <Icon path={mdiPlus} />
     </button>
   )
@@ -20,7 +25,7 @@ export const ModalButton = (props: {
   // onClick: MouseEventHandler
   show: boolean
   setShow: (show: boolean) => void
-  children: ReactNode
+  children: React.ReactNode
 }) => (
   <div className={classNames("float-button", props.show ? "modal" : "")}>
     {props.children}

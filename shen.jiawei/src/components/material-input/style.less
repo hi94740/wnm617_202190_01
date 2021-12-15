@@ -22,6 +22,7 @@
   --color-neutral-contrast-8: rgba(0, 0, 0, 0.8);
   --color-neutral-contrast-9: rgba(0, 0, 0, 0.9);
   --color-neutral-contrast-10: rgba(0, 0, 0, 1);
+  --color-error: red;
 
   display: flex;
   flex-direction: column-reverse;
@@ -34,9 +35,8 @@
   }
 
   & > input {
-    margin: 0.5em 0;
+    margin: 0;
     padding: 0.4em 0;
-    margin-top: 0;
     padding-top: 0;
     background-color: transparent;
     border: 0;
@@ -88,6 +88,21 @@
       &:focus + label {
         transform: none;
       }
+    }
+  }
+
+  & > div {
+    font-size: 0.5rem;
+    height: 2em;
+    color: var(--color-error);
+  }
+
+  &.error {
+    & > input {
+      border-bottom-color: var(--color-error) !important;
+    }
+    & > label {
+      color: var(--color-error) !important;
     }
   }
 }

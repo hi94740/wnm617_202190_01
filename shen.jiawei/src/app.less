@@ -10,6 +10,12 @@ section {
   top: 0;
   left: 0;
   width: 100vw;
+  & > .center-container {
+    height: 100vh;
+    & > .preloader-wrapper {
+      --color: #colors() [primary];
+    }
+  }
 }
 
 .bottom-spacer {
@@ -26,6 +32,38 @@ section {
 
 .center-container {
   .center-container();
+}
+
+.grid2 {
+  .grid(2);
+  .col1all();
+}
+
+.button-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--toolbar-margin) / 2);
+  margin: $gap;
+
+  & > * {
+    width: 100%;
+  }
+}
+
+.horizontal-scroll-section {
+  display: flex;
+  padding: var(--toolbar-margin);
+  gap: var(--toolbar-margin);
+  overflow: scroll;
+}
+
+.image-edit-tag {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
 }
 
 .fade- {

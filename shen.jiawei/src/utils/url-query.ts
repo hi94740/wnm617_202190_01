@@ -1,5 +1,5 @@
 import { useObservable } from "observable-hooks"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useHistory } from "react-router"
 import { distinctUntilChanged, map } from "rxjs"
 import { useHistoryObservable } from "./history"
@@ -33,12 +33,32 @@ export const useURLQuery = () => {
   return query
 }
 
-export const useURLQueryObservable = (key: string) => {
+export const useURLQueryObservable = <T extends string = string>(
+  key: string,
+  defaultValue: T = null
+) => {
   const history$ = useHistoryObservable()
-  return useObservable(() =>
-    history$.pipe(
-      map(h => new URLSearchParams(h[0].location.search).get(key)),
-      distinctUntilChanged()
-    )
-  )
+  const urlQuery = useURLQuery()
+  return [
+    useObservable(() =>
+      history$.pipe(
+        map(
+          h =>
+            (new URLSearchParams(h[0].location.search).get(key) as T) ||
+            defaultValue
+        ),
+        distinctUntilChanged()
+      )
+    ),
+    (v: T) => v ? urlQuery.set(key, v) : urlQuery.delete(key)
+  ] as const
+}
+
+export const useClearURLQueryOnUnmout = () => {
+  const history = useHistory()
+  useEffect(() => () => {
+    const { location } = history
+    location.search = ""
+    history.replace(location)
+  }, [])
 }

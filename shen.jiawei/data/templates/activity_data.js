@@ -21,7 +21,7 @@
                 600
               )}x400/`
           )
-      )
+      ).slice(1, -1)
     },
     // appeared_at(tags) {
     //   return JSON.stringify(

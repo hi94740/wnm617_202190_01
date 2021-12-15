@@ -1,7 +1,7 @@
 import React from "react"
 
 const LoaderRadial = () => (
-  <div className="center-container" style={{ height: "100vh" }}>
+  <div className="center-container">
     <div className="preloader-wrapper active">
       <div className="spinner-layer only">
         <div className="circle-clipper left">

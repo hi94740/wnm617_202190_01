@@ -10,7 +10,7 @@ import React from "react"
 import type WorkData from "../../../../api/data-tables/WorkData"
 import { capitalize } from "lodash"
 import type { PickR } from "../../../../utils/types"
-import type { ActivityCount } from "../../../../api/data-tables/variations/work-data-with-activity-count"
+import type { ActivityCountData } from "../../../../api/data-tables/variations/work-data-with-activity-count"
 import { IconProps } from "@mdi/react/dist/IconProps"
 
 const bottomIconSize = "1.3em"
@@ -56,18 +56,20 @@ export const WorkTypeTag = ({
   )
 }
 
+export const ActivityCount = ({ activity_count }: ActivityCountData) => (
+  <div className="activity-count">
+    <Icon path={mdiMapMarkerMultiple} size={bottomIconSize} />
+    <div>{activity_count || "Loading..."}</div>
+  </div>
+)
+
 export const WorkInfo = (
-  w: (PickR<WorkData, "type"> & ActivityCount) | null
+  w: (PickR<WorkData, "type"> & ActivityCountData) | null
 ) => {
   return (
     <div className="work-info">
       <WorkTypeTag {...w} />
-      {w.activity_count ? (
-        <div className="activity-count">
-          <Icon path={mdiMapMarkerMultiple} size={bottomIconSize} />
-          <div>{w.activity_count}</div>
-        </div>
-      ) : null}
+      {w.activity_count ? <ActivityCount {...w} /> : null}
     </div>
   )
 }

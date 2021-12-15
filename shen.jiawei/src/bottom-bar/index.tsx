@@ -3,8 +3,9 @@ import Icon from "@mdi/react"
 import {
   mdiAccount,
   mdiArrowLeft,
+  mdiCloseCircle,
   mdiFormatListText,
-  mdiMapMarker
+  mdiMap
 } from "@mdi/js"
 
 import React, {
@@ -16,18 +17,13 @@ import React, {
   useState
 } from "react"
 import { createPortal } from "react-dom"
-import {
-  NavLink,
-  useHistory,
-  Switch,
-  Route,
-  useLocation
-} from "react-router-dom"
+import { NavLink, useHistory, useLocation } from "react-router-dom"
 import { useObservableCallback, useSubscription } from "observable-hooks"
 import { debounceTime, tap } from "rxjs"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import { useURLQuery } from "../utils/url-query"
 import { classNames } from "../utils/classNames"
+import { useHistoryObservable } from "../utils/history"
 
 export const ToolbarContext = createContext({
   toolbarElement: null as HTMLDivElement,
@@ -36,7 +32,8 @@ export const ToolbarContext = createContext({
   setModalElement: (element: HTMLDivElement) => {}
 })
 
-const noBack = ["/map", "/works", "/user"]
+const noBackPath = ["/map", "/works", "/user"]
+const backQuery = ["activity", "work", "add"]
 
 let goBackHandler: (() => void) | null = null
 export const useGoBackHandler = (handler: () => void) =>
@@ -68,16 +65,17 @@ export default () => {
   const urlQuery = useURLQuery()
 
   const backable =
-    !noBack.includes(location.pathname) || urlQuery.has("activity")
+    !noBackPath.includes(location.pathname) ||
+    backQuery.some(q => urlQuery.has(q))
 
   const [navActive, setNavActive] = useState(false)
   const [handleTapNav, tapNav] = useObservableCallback(o =>
     o.pipe(
-      tap(() => setNavActive(true)),
-      debounceTime(2800)
+      tap(() => setNavActive(true))
+      // debounceTime(2800)
     )
   )
-  useSubscription(tapNav, () => setNavActive(false))
+  useSubscription(tapNav /*, () => setNavActive(false)*/)
 
   const activeClassName = "selected"
   const navlinkProps: Partial<Parameters<NavLink>[0]> = {
@@ -92,6 +90,17 @@ export default () => {
     }
   }
 
+  // useSubscription(
+  //   useHistoryObservable(),
+  //   ([{ location }]) =>
+  //     !noBackPath.includes(location.pathname) ||
+  //     (backQuery.some(q => new URLSearchParams(location.search).has(q)) &&
+  //       setNavActive(false))
+  // )
+  useEffect(() => {
+    if (backable) setNavActive(false)
+  }, [backable])
+
   const toolbarRef = useCallback(
     useContext(ToolbarContext).setToolbarElement,
     []
@@ -104,10 +113,7 @@ export default () => {
       <footer>
         <div ref={toolbarRef} />
         <nav
-          className={classNames(
-            navActive ? "active" : "",
-            backable ? "back" : ""
-          )}
+          className={backable ? "back" : navActive ? "active" : ""}
           onClick={backable ? undefined : handleTapNav}
         >
           <TransitionGroup component={null}>
@@ -125,8 +131,16 @@ export default () => {
                 </button>
               ) : (
                 <>
+                  <a
+                    onClick={event => {
+                      event.stopPropagation()
+                      setNavActive(false)
+                    }}
+                  >
+                    <NavIcon path={mdiCloseCircle} />
+                  </a>
                   <NavLink to="/map" {...navlinkProps}>
-                    <NavIcon path={mdiMapMarker} />
+                    <NavIcon path={mdiMap} />
                   </NavLink>
                   <NavLink to="/works" {...navlinkProps}>
                     <NavIcon path={mdiFormatListText} />
@@ -144,7 +158,7 @@ export default () => {
   )
 }
 
-export const Toolbar = (props: { children: ReactNode }) => {
+export const Toolbar = (props: { children: ReactNode; classNames?: any }) => {
   const { toolbarElement } = useContext(ToolbarContext)
   const [show, setShow] = useState(false)
   useEffect(() => {
@@ -156,7 +170,9 @@ export const Toolbar = (props: { children: ReactNode }) => {
       : ""
   return toolbarElement
     ? createPortal(
-        <div className={classShow}>{props.children}</div>,
+        <div className={classNames("toolbar", classShow, props.classNames)}>
+          {props.children}
+        </div>,
         toolbarElement
       )
     : null
@@ -168,7 +184,7 @@ export const ToolbarModal = (props: { children: ReactNode; show: boolean }) => {
     ? createPortal(
         <CSSTransition
           in={props.show}
-          timeout={300}
+          timeout={500}
           classNames="slide-up"
           mountOnEnter
           unmountOnExit
