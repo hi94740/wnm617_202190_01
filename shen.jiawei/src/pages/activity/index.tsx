@@ -1,6 +1,6 @@
 import "./style.less"
 
-import { mdiFilmstripBoxMultiple } from "@mdi/js"
+import { mdiDelete, mdiFilmstripBoxMultiple } from "@mdi/js"
 import Icon from "@mdi/react"
 import { useObservable, useObservableState } from "observable-hooks"
 import React, { useEffect, useLayoutEffect } from "react"
@@ -19,6 +19,7 @@ import ActivityData, {
 } from "../../api/data-tables/ActivityData"
 import { PickR } from "../../utils/types"
 import { Link } from "react-router-dom"
+import Button from "../../components/button"
 
 type ActivityFormData = PickR<ActivityData, "title" | "description">
 export type ActivityEditData = PickR<
@@ -71,7 +72,7 @@ export default () => {
       })
     }
   }, [aw])
-  const { setQueryParams } = useQuery(
+  const { setQueryParams, loading: isSubmiting } = useQuery(
     "edit_activity",
     EMPTY as Observable<ActivityEditData>,
     { retry: false }
@@ -85,6 +86,24 @@ export default () => {
     a.work_id = aw.activity.work_id
     setQueryParams(a.toRawData() as ActivityEditData)
   })
+
+  const { loading: deleting, setQueryParams: deleteActivity } = useQuery(
+    "delete_activity",
+    EMPTY as Observable<ActivityID>,
+    {
+      retry: false,
+      onLoaded(res) {
+        history.back()
+        if (!Array.isArray(res)) {
+          if (typeof res === "string") alert(res)
+          else {
+            console.error(res)
+            alert("Unknown error!")
+          }
+        }
+      }
+    }
+  )
 
   return (
     <section id="page-activity">
@@ -110,6 +129,13 @@ export default () => {
               showName
             />
           </Link>
+          <Button
+            icon={mdiDelete}
+            type="button"
+            loading={isSubmiting || deleting}
+            onBlur={e => e.stopPropagation()}
+            onClick={() => confirm("Delet this activity?") && deleteActivity(id)}
+          />
         </header>
         <div>
           {/* <p>{a?.activity?.description || "Loading..."}</p> */}

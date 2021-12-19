@@ -39,7 +39,7 @@ const useUploadImage = (setImgUrl: (imgUrl: string) => void) => {
       <input
         type="file"
         name="image"
-        accept="image/png, image/jpeg"
+        accept="image/png, image/jpeg, image/webp"
         onChange={handleChange}
         hidden
         ref={ref}

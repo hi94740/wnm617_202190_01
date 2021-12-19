@@ -171,7 +171,6 @@ switch($input->a) {
   case "add_work":
     $t = makeInsert("works", ["name", "type", "tags", "user_id"]);
     $p->user_id = $input->u;
-    $p = (array) $p;
     break;
   case "user_profile":
     $t = 'SELECT `name`, `username`, `img`
@@ -182,7 +181,6 @@ switch($input->a) {
   case "edit_profile":
     $t = makeUpdate("users", ["name", "username", "img"]);
     $p->id = $input->u;
-    $p = (array) $p;
     break;
   case "add_user":
     $query = $db->prepare('SELECT `username` FROM `users` WHERE `username` = ?');
@@ -190,25 +188,32 @@ switch($input->a) {
     $result = $query->fetchAll(PDO::FETCH_ASSOC);
     if (count($result) > 0) die('{"username": "Username already used"}');
     $t = str_replace(":password", "md5(:password)", makeInsert("users", ["username", "password"]));
-    $p = (array) $p;
     break;
   case "edit_work":
     $t = makeUpdate("works", ["name", "type", "tags", "img"])." AND `user_id` = :user_id";
     $p->user_id = $input->u;
-    $p = (array) $p;
     break;
   case "edit_activity":
     $check_work_id = true;
     $t = makeUpdate("activities", ["title", "description"])." AND `work_id` = :work_id";
-    $p = (array) $p;
     break;
   case "add_activity":
     $check_work_id = true;
     $t = makeInsert("activities", ["lat", "lng", "work_id", "description"]);
     $p->description = "";
-    $p = (array) $p;
+    break;
+  case "delete_activity":
+    $p = ["id" => $p];
+    $query = $db->prepare('SELECT `work_id` FROM `activities` WHERE `id` = :id');
+    $query->execute($p);
+    $work_id = $query->fetch(PDO::FETCH_ASSOC)["work_id"];
+    $p["work_id"] = $work_id;
+    $input->p = (object) $p;
+    $check_work_id = true;
+    $t = 'DELETE FROM `activities` WHERE `id` = :id AND `work_id` = :work_id';
     break;
 }
+    $p = (array) $p;
 
 if ($check_work_id) {
   $query = $db->prepare('SELECT `user_id` FROM `works` WHERE `user_id` = ? AND `id` = ?');

@@ -144,6 +144,7 @@ interface PredefinedQueries {
     PickR<RawActivityData, "lat" | "lng" | "work_id">,
     ActivityID | string
   ]
+  delete_activity: [ActivityID, [] | string]
 }
 
 type QueryParams<Action extends keyof PredefinedQueries> =
@@ -199,6 +200,7 @@ export async function query<Action extends keyof PredefinedQueries>(
     case "edit_activity":
     case "add_user":
     case "add_activity":
+    case "delete_activity":
       return res
     default:
       throw new Error("No parsing specified for query action: " + action)
@@ -215,7 +217,7 @@ export const useQuery = <
   parameters: Params | Observable<Params>,
   config?: {
     onLoading?: () => void
-    onLoaded?: () => void
+    onLoaded?: (data: QueryData<Action>) => void
     retry?: boolean
   }
 ) => {
@@ -243,8 +245,8 @@ export const useQuery = <
       switchMap(p =>
         from(query(action, p, userID, config?.retry === false ? false : true))
       ),
-      tap(() => {
-        config?.onLoaded?.()
+      tap(data => {
+        config?.onLoaded?.(data)
         setLoading(false)
       })
     )

@@ -11,7 +11,7 @@ import {
   mdiDotsVertical,
   mdiLogout
 } from "@mdi/js"
-import { useQuery } from "../../api/predefined-query"
+import { createQueryParameter, useQuery } from "../../api/predefined-query"
 import Button from "../../components/button"
 
 export default withUserID(() => {
@@ -26,9 +26,12 @@ export default withUserID(() => {
 
   const { data: [u] = [null] } = useQuery("user_profile", undefined)
 
+  const { data: works } = useQuery("works", createQueryParameter("works", [{}]))
+  const workImgs = works?.filter?.(w => w.img)?.slice?.(0, 5)
+
   return (
     <section id="page-user">
-      {u ? (
+      {u && u.img ? (
         <img src={u.img} alt="profile picture" className="pfp" />
       ) : (
         <Icon path={mdiAccountCircleOutline} />
@@ -53,6 +56,20 @@ export default withUserID(() => {
           </div>
         </ToolbarModal>
       </Toolbar>
+      {workImgs
+        ? workImgs.map((w, i) => (
+            <img
+              src={w.img}
+              className="gallery-img"
+              style={
+                {
+                  "--index": i,
+                  "--image-amount": workImgs.length
+                } as React.CSSProperties
+              }
+            />
+          ))
+        : null}
     </section>
   )
 })

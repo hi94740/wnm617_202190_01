@@ -51,7 +51,7 @@ const Card = (
 ) => (
   <Link to={"/work/" + w.id}>
     <div className="card-work">
-      <img src={w.img || "https://via.placeholder.com/360x510?text=Add"} />
+      <img src={w.img || "https://via.placeholder.com/360x510?text=" + w.name} />
       <div>
         <h2>{w.name}</h2>
         <WorkTags {...w} />

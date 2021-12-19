@@ -40,7 +40,7 @@ export default withUserID(() => {
   const img = w?.img ||
   (loading
     ? "https://via.placeholder.com/360x510?text=Loading"
-    : "https://via.placeholder.com/360x510?text=Add")
+    : "https://via.placeholder.com/360x510?text=" + w?.name)
   return (
     <section id="page-work">
       <header

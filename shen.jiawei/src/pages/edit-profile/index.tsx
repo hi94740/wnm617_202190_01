@@ -87,7 +87,15 @@ export default withUserID(() => {
               <LoaderRadial />
             ) : (
               <>
-                <img src={watch("img")} alt="profile picture" className="pfp" ref={imgRef} />
+                <img
+                  src={
+                    watch("img") ||
+                    "https://via.placeholder.com/360x510?text=Add"
+                  }
+                  alt="profile picture"
+                  className="pfp"
+                  ref={imgRef}
+                />
                 <div className="image-edit-tag">Edit</div>
               </>
             )}
