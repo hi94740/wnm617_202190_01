@@ -1,1 +1,1 @@
-export * from "../php/[[path]]"
+export { onRequest } from "../php/[[path]]"
